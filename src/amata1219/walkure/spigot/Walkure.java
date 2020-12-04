@@ -6,6 +6,7 @@ import amata1219.redis.plugin.messages.common.RedisPluginMessagesAPI;
 import amata1219.walkure.Channels;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
@@ -34,7 +35,9 @@ public class Walkure extends JavaPlugin {
             e.printStackTrace();
         }
 
-        getServer().getPluginManager().registerEvents(new InventoryOperationListener(), this);
+        registerEventListeners(
+                new InventoryOperationListener()
+        );
     }
 
     @Override
@@ -44,6 +47,11 @@ public class Walkure extends JavaPlugin {
 
     public static Walkure instance() {
         return instance();
+    }
+
+    private void registerEventListeners(Listener... listeners) {
+        for (Listener listener : listeners)
+            getServer().getPluginManager().registerEvents(listener, this);
     }
 
 }
