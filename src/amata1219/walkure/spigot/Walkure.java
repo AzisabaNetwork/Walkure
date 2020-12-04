@@ -1,9 +1,14 @@
 package amata1219.walkure.spigot;
 
+import amata1219.niflheimr.enchantment.GleamEnchantment;
+import amata1219.niflheimr.listener.InventoryOperationListener;
 import amata1219.redis.plugin.messages.common.RedisPluginMessagesAPI;
 import amata1219.walkure.Channels;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Field;
 
 public class Walkure extends JavaPlugin {
 
@@ -16,6 +21,20 @@ public class Walkure extends JavaPlugin {
         plugin = this;
         redis.registerIncomingChannels(Channels.RESPONSE);
         redis.registerOutgoingChannels(Channels.REQUEST, Channels.CONNECT);
+
+        Field acceptingNew;
+        try {
+            acceptingNew = Enchantment.class.getDeclaredField("acceptingNew");
+            acceptingNew.setAccessible(true);
+            acceptingNew.set(null, true);
+            Enchantment.registerEnchantment(GleamEnchantment.INSTANCE);
+            acceptingNew.set(null, false);
+            acceptingNew.setAccessible(false);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        getServer().getPluginManager().registerEvents(new InventoryOperationListener(), this);
     }
 
     @Override
