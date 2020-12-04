@@ -9,6 +9,8 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import net.md_5.bungee.api.config.ServerInfo;
 
+import java.util.Collection;
+
 public class RequestSubscriber implements RedisSubscriber {
 
     private final Walkure plugin = Walkure.instance();
@@ -21,20 +23,13 @@ public class RequestSubscriber implements RedisSubscriber {
     @Override
     public void onRedisMessageReceived(String sourceServerName, ByteArrayDataInput message) {
         ByteArrayDataOutput out = ByteIO.newDataOutput();
-        out.writeUTF(networkInformation());
-        redis.publisher().sendRedisMessage(Channels.RESPONSE, out);
-    }
-
-    private String networkInformation() {
-        StringBuilder builder = new StringBuilder();
-        for (ServerInfo server : plugin.getProxy().getServers().values()) {
-            builder.append(',');
-            builder.append(server.getName());
-            builder.append(',');
-            builder.append(server.getPlayers().size());
+        Collection<ServerInfo> servers = plugin.getProxy().getServers().values();
+        out.writeInt(servers.size());
+        for (ServerInfo server : servers) {
+            out.writeUTF(server.getName());
+            out.writeInt(server.getPlayers().size());
         }
-        System.out.println("build: " + builder.substring(1));
-        return builder.substring(1);
+        redis.publisher().sendRedisMessage(Channels.RESPONSE, out);
     }
 
 }
