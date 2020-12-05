@@ -1,4 +1,4 @@
-package amata1219.walkure.spigot.data;
+package amata1219.walkure.spigot.data.serverdata;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

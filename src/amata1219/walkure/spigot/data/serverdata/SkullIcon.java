@@ -1,4 +1,4 @@
-package amata1219.walkure.spigot.data;
+package amata1219.walkure.spigot.data.serverdata;
 
 import amata1219.walkure.spigot.itemstack.SkullCreator;
 import org.bukkit.Material;

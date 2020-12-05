@@ -1,9 +1,9 @@
 package amata1219.walkure.spigot.config;
 
-import amata1219.walkure.spigot.data.Server;
-import amata1219.walkure.spigot.data.ServerIcon;
-import amata1219.walkure.spigot.data.ServerState;
-import amata1219.walkure.spigot.data.SkullIcon;
+import amata1219.walkure.spigot.data.serverdata.Server;
+import amata1219.walkure.spigot.data.serverdata.ServerIcon;
+import amata1219.walkure.spigot.data.serverdata.ServerState;
+import amata1219.walkure.spigot.data.serverdata.SkullIcon;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 

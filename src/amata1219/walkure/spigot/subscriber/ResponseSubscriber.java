@@ -1,25 +1,45 @@
 package amata1219.walkure.spigot.subscriber;
 
 import amata1219.redis.plugin.messages.common.RedisSubscriber;
-import amata1219.walkure.spigot.registry.CallbackRegistry;
+import amata1219.walkure.spigot.data.NetworkInformationBuilder;
+import amata1219.walkure.spigot.registry.RequesterRegistry;
 import com.google.common.io.ByteArrayDataInput;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
 public class ResponseSubscriber implements RedisSubscriber {
 
-    private final CallbackRegistry registry;
+    private final RequesterRegistry registry;
 
-    public ResponseSubscriber(CallbackRegistry registry) {
+    private final HashMap<Long, Integer> responsesRequired = new HashMap<>();
+    private final HashMap<Long, NetworkInformationBuilder> networkInformationBuilders = new HashMap<>();
+
+    public ResponseSubscriber(RequesterRegistry registry) {
         this.registry = registry;
     }
 
     @Override
     public void onRedisMessageReceived(String sourceServerName, ByteArrayDataInput message) {
-        HashMap<String, Integer> networkInformation = new HashMap<>();
+        HashMap<String, Integer> partialNetworkInformation = new HashMap<>();
+        long id = message.readLong();
         int length = message.readInt();
         for (int i = 0; i < length; i += 2)
-            networkInformation.put(message.readUTF(), message.readInt());
+            partialNetworkInformation.put(message.readUTF(), message.readInt());
+
+        if (!responsesRequired.containsKey(id)) return;
+
+        int necessaryResponses = responsesRequired.get(id);
+        if (necessaryResponses > 1) {
+            responsesRequired.put(id, necessaryResponses - 1);
+            networkInformationBuilders.get(id).accumulate(partialNetworkInformation);
+            return;
+        }
+
+        responsesRequired.remove(id);
+        HashMap<String, Integer> networkInformation = networkInformationBuilders.remove(id).build();
+        Player requester = registry.requester(id);
+        registry.unregister(id);
     }
 
 }

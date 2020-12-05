@@ -6,7 +6,6 @@ import amata1219.redis.plugin.messages.common.RedisPluginMessagesAPI;
 import amata1219.walkure.Channels;
 import amata1219.walkure.spigot.config.Yaml;
 import amata1219.walkure.spigot.listener.PlayerJoinListener;
-import amata1219.walkure.spigot.registry.CallbackRegistry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -25,8 +24,6 @@ public class Walkure extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-
-        CallbackRegistry registry = new CallbackRegistry();
 
         redis.registerIncomingChannels(Channels.RESPONSE);
         redis.registerOutgoingChannels(Channels.REQUEST, Channels.CONNECT);
