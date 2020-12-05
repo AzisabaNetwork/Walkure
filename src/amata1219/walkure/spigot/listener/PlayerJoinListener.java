@@ -11,8 +11,7 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void on(PlayerJoinEvent event) {
         Inventory inventory = event.getPlayer().getInventory();
-        if (!inventory.contains(Constants.SERVER_SELECTOR))
-            inventory.addItem(Constants.SERVER_SELECTOR);
+        if (!inventory.contains(Constants.SERVER_SELECTOR)) inventory.addItem(Constants.SERVER_SELECTOR);
     }
 
 }
