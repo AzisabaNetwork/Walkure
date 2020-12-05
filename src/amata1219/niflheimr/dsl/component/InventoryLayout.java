@@ -70,7 +70,7 @@ public class InventoryLayout implements InventoryHolder {
         };
     }
 
-    public Slot slotAt(int index) {
+    private Slot slotAt(int index) {
         return slots.getOrDefault(index, animatedSlots.containsKey(index) ? animatedSlots.get(index) : defaultSlot.get());
     }
 

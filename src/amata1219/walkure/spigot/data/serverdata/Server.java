@@ -2,25 +2,28 @@ package amata1219.walkure.spigot.data.serverdata;
 
 public class Server {
 
+    public final String identifier;
     public final String displayName;
     public final String recommendedVersion;
     public final String supportedVersions;
-    public final ServerState status;
+    public final ServerState state;
     public final String description;
     public final ServerIcon icon;
 
     public Server(
+            String identifier,
             String displayName,
             String recommendedVersion,
             String supportedVersions,
-            ServerState status,
+            ServerState state,
             String description,
             ServerIcon icon
     ) {
+        this.identifier = identifier;
         this.displayName = displayName;
         this.recommendedVersion = recommendedVersion;
         this.supportedVersions = supportedVersions;
-        this.status = status;
+        this.state = state;
         this.description = description;
         this.icon = icon;
     }

@@ -32,6 +32,8 @@ public class Walkure extends JavaPlugin {
         redis.registerIncomingChannels(Channels.RESPONSE);
         redis.registerOutgoingChannels(Channels.REQUEST);
 
+        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
         registerGleamEnchantment();
 
         registerEventListeners(

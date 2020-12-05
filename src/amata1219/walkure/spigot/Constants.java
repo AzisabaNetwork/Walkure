@@ -5,11 +5,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import static org.bukkit.ChatColor.*;
 
 public class Constants {
 
+    public static final Random RANDOM = new Random();
     public static final ItemStack SERVER_SELECTOR = new ItemStack(Material.RAW_FISH);
 
     static {

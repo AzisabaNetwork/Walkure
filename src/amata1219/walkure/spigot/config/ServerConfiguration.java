@@ -36,7 +36,7 @@ public class ServerConfiguration {
             String skullTexture = section.getString("item-skull-texture");
             String description = section.getString("description");
             ServerIcon icon = skullTexture == null ? new ServerIcon(material, damage) : new SkullIcon(skullTexture);
-            Server server = new Server(displayName, recommendedVersion, supportedVersions, state, description, icon);
+            Server server = new Server(serverIdentifier, displayName, recommendedVersion, supportedVersions, state, description, icon);
             servers.put(serverIdentifier, server);
             section.getStringList("child-servers").forEach(childServerIdentifier -> childrenToParents.put(serverIdentifier, childServerIdentifier));
         }
