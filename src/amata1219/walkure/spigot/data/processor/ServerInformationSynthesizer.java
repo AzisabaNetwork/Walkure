@@ -18,6 +18,12 @@ public class ServerInformationSynthesizer {
         Pair<HashMap<String, Integer>, HashMap<String, Integer>> split = MapSplitter.split(networkInformation, config.servers::containsKey);
         HashMap<String, Integer> parents = split.right, children = split.left;
         parents.forEach(serversInformation::put);
+        children.forEach((serverIdentifier, playerCount) -> {
+            if (!config.childrenToParents.containsKey(serverIdentifier)) return;
+            String parentServerIdentifier = config.childrenToParents.get(serverIdentifier);
+            serversInformation.computeIfPresent(parentServerIdentifier, (key, count) -> count + playerCount);
+        });
+        return serversInformation;
     }
 
 }

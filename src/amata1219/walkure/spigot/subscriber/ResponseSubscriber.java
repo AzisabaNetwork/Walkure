@@ -1,6 +1,7 @@
 package amata1219.walkure.spigot.subscriber;
 
 import amata1219.redis.plugin.messages.common.RedisSubscriber;
+import amata1219.walkure.spigot.Walkure;
 import amata1219.walkure.spigot.data.NetworkInformationBuilder;
 import amata1219.walkure.spigot.registry.RequesterRegistry;
 import com.google.common.io.ByteArrayDataInput;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 
 public class ResponseSubscriber implements RedisSubscriber {
 
+    private final Walkure plugin = Walkure.instance();
     private final RequesterRegistry registry;
 
     private final HashMap<Long, Integer> responsesRequired = new HashMap<>();
@@ -40,6 +42,9 @@ public class ResponseSubscriber implements RedisSubscriber {
         HashMap<String, Integer> networkInformation = networkInformationBuilders.remove(id).build();
         Player requester = registry.requester(id);
         registry.unregister(id);
+
+        HashMap<String, Integer> serversInformation = plugin.serverInformationSynthesizer.synthesize(networkInformation);
+
     }
 
 }
