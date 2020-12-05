@@ -1,6 +1,6 @@
 package amata1219.walkure.spigot.data;
 
-public enum ServerStatus {
+public enum ServerState {
 
     OPEN("公開中"),
     OPEN_BETA("ベータ公開中"),
@@ -9,7 +9,7 @@ public enum ServerStatus {
 
     public final String text;
 
-    private ServerStatus(String text) {
+    private ServerState(String text) {
         this.text = text;
     }
 

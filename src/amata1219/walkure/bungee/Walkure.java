@@ -5,6 +5,7 @@ import amata1219.walkure.Channels;
 import amata1219.walkure.bungee.subscriber.ConnectSubscriber;
 import amata1219.walkure.bungee.subscriber.RequestSubscriber;
 import net.md_5.bungee.api.plugin.Plugin;
+import org.bukkit.Material;
 
 public class Walkure extends Plugin {
 

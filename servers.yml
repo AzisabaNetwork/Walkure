@@ -1,1 +1,121 @@
 servers:
+  lgw:
+    display-name: Leon Gun War
+    versions:
+      recommended: 1.12.2
+      supported: 1.12.2 - 1.16.3
+    state: OPEN
+    item-material: BOW
+    description: |-
+      FPSゲームができる銃撃戦サーバーです！
+      とりあえず銃で撃ち合いしたい人は
+      このサーバーに参加しよう！
+  life:
+    display-name: Life
+    versions:
+      supported: 1.15.2
+    state: OPEN
+    item-material: WHEAT
+    description: |-
+      街作りにダンジョン攻略！
+      様々な遊び方ができる新しい生活サーバーです！
+  casino:
+    display-name: Phantasy Gate
+    versions:
+      recommended: 1.12.2
+      supported: 1.12.2 - 1.15.2
+    state: OPEN
+    item-material: NETHER_STAR
+    description: |-
+      WGPサーバーの後継サーバーとして開発された
+      カジノに特化したサーバーです！
+      サバイバルで生活したり
+      ギャンブルをしたり出来ます！
+  lobby:
+    display-name: Lobby
+    versions:
+      recommended: 1.12.2
+      supported: 1.8.0 - 1.16.3
+    state: SYSTEM_OPEN
+    item-material: FIREWORK
+    description: |-
+      アジ鯖に参加すると
+      最初に飛ばされるサーバーです。
+      ここから自分の行きたい
+      サーバーに移動しよう！
+  afk:
+    display-name: Away From Keyboard (AFK)
+    versions:
+      recommended: 1.8.x
+      supported: 1.8.0 - 1.16.3
+     state: SYSTEM_OPEN
+    item-material: WATER_BUCKET
+    description: |-
+      放置する自信がある場合にどうぞ。
+  hh:
+    display-name: Hyper-Hardcore
+    versions:
+      supported: 1.15.2
+    state: DEVELOP
+    item-material: TNT
+    description: |-
+      戦争するもよし
+      略奪するもよし
+      ハードコア要素を楽しむもよし。
+      結構自由なサーバーです。
+      ただし死ぬと思い代償が...
+  rzh:
+    display-name: Ryuzu Zombie Hunt (RZH)
+    versions:
+      recommended: 1.12.2
+      supported: 1.12.2-1.16.3
+    state: DEVELOP
+    item-material: ROTTEN_FLESH
+    description: |-
+      アジ鯖運営Y_RyuZUとRZH運営で作り上げる
+      ウェーブ型のPvEサーバーです。
+      ゾンビを倒しまくれ！
+  coretol:
+    display-name: Coretol
+    versions:
+      supported: 1.15.2
+    state: DEVELOP
+    item-material: SKULL_ITEM
+    item-damage: 3
+    item-skul-texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWJkODBjOTIxZDg5Y2VjMTVmMmI1ZTZmNWQ0YmJkZDc1NDgyMGM1MzBhYTUwZmYxYjE3N2VlMTRkM2E4MDkzNSJ9fX0=
+    description: |-
+      - Minecraft MMORPG Server -
+  lgwf:
+    display-name: Leon Gun Warfare
+    versions:
+      recommended: 1.14.4
+      supported: 1.8.0 - 1.16.3
+    state: DEVELOP
+    item-material: BOW
+    description: |-
+      生まれ変わったLGW
+      より多くのゲームモードで銃撃戦が楽しめる！
+  fsw:
+    display-name: Freedom Santa World
+    versions:
+      recommended: 1.12.2
+      supported: 1.12.2 - 1.16.3
+    state: DEVELOP
+    item-material: LEATHER_HELMET
+    description: |-
+      銃あり、ロストありのハードコアサバイバルPVP
+      殺し、略奪し、荒れた世界を生き抜こう！
+  sclat:
+    display-name: Sclat
+    versions:
+      recommended: 1.13.2
+      supported: 1.13.2 - 1.16.4
+      state: OPEN_BETA
+    #ここに定義した値は実際は使用していない
+    child-servers:
+      - sclattest
+      - sclattutorial
+      - sclatsv
+    item-material: WATER_BUCKET
+    description: |-
+      スプラトゥーンが遊べるサーバーです。
