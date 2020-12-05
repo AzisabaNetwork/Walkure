@@ -47,6 +47,25 @@ public class ServerSelectorUI implements InventoryUI {
             for (int i = 0; i < openServers.size(); i++) {
                 Server server = openServers.get(i);
                 l.putSlot(s -> {
+                    s.icon(createIconSettings(server));
+                    s.onClick(createActionOnClick(viewer, server));
+                }, i);
+            }
+
+            List<Server> systemServers = groupedServers.get(ServerState.SYSTEM);
+            for (int i = 9 * 2; i < systemServers.size(); i++) {
+                Server server = systemServers.get(i);
+                l.putSlot(s -> {
+                    s.icon(createIconSettings(server));
+                    s.onClick(createActionOnClick(viewer, server));
+                }, i);
+            }
+
+            List<Server> serversUnderDevelopment = groupedServers.get(ServerState.DEVELOP);
+            for (int i = 9 * 4; i < serversUnderDevelopment.size(); i++) {
+                Server server = serversUnderDevelopment.get(i);
+                l.putSlot(s -> {
+                    s.icon(createIconSettings(server));
                     s.onClick(createActionOnClick(viewer, server));
                 }, i);
             }
