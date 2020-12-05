@@ -4,6 +4,9 @@ import amata1219.niflheimr.enchantment.GleamEnchantment;
 import amata1219.niflheimr.listener.InventoryOperationListener;
 import amata1219.redis.plugin.messages.common.RedisPluginMessagesAPI;
 import amata1219.walkure.Channels;
+import amata1219.walkure.spigot.config.Yaml;
+import amata1219.walkure.spigot.listener.PlayerJoinListener;
+import amata1219.walkure.spigot.registry.CallbackRegistry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -17,9 +20,14 @@ public class Walkure extends JavaPlugin {
 
     private final RedisPluginMessagesAPI redis = (RedisPluginMessagesAPI) getServer().getPluginManager().getPlugin("RedisPluginMessagesAPI");
 
+    public final Yaml config = new Yaml("config.yml");
+
     @Override
     public void onEnable() {
         plugin = this;
+
+        CallbackRegistry registry = new CallbackRegistry();
+
         redis.registerIncomingChannels(Channels.RESPONSE);
         redis.registerOutgoingChannels(Channels.REQUEST, Channels.CONNECT);
 
@@ -36,7 +44,8 @@ public class Walkure extends JavaPlugin {
         }
 
         registerEventListeners(
-                new InventoryOperationListener()
+                new InventoryOperationListener(),
+                new PlayerJoinListener()
         );
     }
 

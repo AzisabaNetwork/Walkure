@@ -23,6 +23,7 @@ public class RequestSubscriber implements RedisSubscriber {
     @Override
     public void onRedisMessageReceived(String sourceServerName, ByteArrayDataInput message) {
         ByteArrayDataOutput out = ByteIO.newDataOutput();
+        out.writeLong(message.readLong());
         Collection<ServerInfo> servers = plugin.getProxy().getServers().values();
         out.writeInt(servers.size());
         for (ServerInfo server : servers) {
