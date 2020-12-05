@@ -4,7 +4,6 @@ public class Channels {
 
     public static final String REQUEST;
     public static final String RESPONSE;
-    public static final String CONNECT;
 
     static {
         String name = "Walkure";
@@ -13,7 +12,6 @@ public class Channels {
 
         REQUEST = prefix + "request";
         RESPONSE = prefix + "response";
-        CONNECT = prefix + "connect";
     }
 
 }

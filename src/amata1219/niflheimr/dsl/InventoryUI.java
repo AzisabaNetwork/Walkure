@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 public interface InventoryUI {
 
-    InventoryLayout layout(Player holder);
+    InventoryLayout layout(Player viewer);
 
     default InventoryLayout build(InventoryFormat format, Consumer<InventoryLayout> settings) {
         InventoryLayout layout = new InventoryLayout(format);

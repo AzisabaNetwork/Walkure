@@ -1,7 +1,9 @@
 package amata1219.walkure.spigot.ui;
 
 import amata1219.niflheimr.dsl.InventoryUI;
+import amata1219.niflheimr.dsl.component.InventoryFormat;
 import amata1219.niflheimr.dsl.component.InventoryLayout;
+import amata1219.niflheimr.dsl.component.InventoryLines;
 import amata1219.walkure.spigot.Walkure;
 import amata1219.walkure.spigot.config.ServerConfiguration;
 import org.bukkit.entity.Player;
@@ -18,9 +20,10 @@ public class ServerSelectorUI implements InventoryUI {
     }
 
     @Override
-    public InventoryLayout layout(Player holder) {
+    public InventoryLayout layout(Player viewer) {
+        return build(InventoryLines.x6, l -> {
 
-        return null;
+        });
     }
 
 }

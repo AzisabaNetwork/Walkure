@@ -30,7 +30,7 @@ public class Walkure extends JavaPlugin {
         plugin = this;
 
         redis.registerIncomingChannels(Channels.RESPONSE);
-        redis.registerOutgoingChannels(Channels.REQUEST, Channels.CONNECT);
+        redis.registerOutgoingChannels(Channels.REQUEST);
 
         registerGleamEnchantment();
 

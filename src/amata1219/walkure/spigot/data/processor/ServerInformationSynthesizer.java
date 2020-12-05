@@ -20,7 +20,9 @@ public class ServerInformationSynthesizer {
         parents.forEach(serversInformation::put);
         children.forEach((serverIdentifier, playerCount) -> {
             if (!config.childrenToParents.containsKey(serverIdentifier)) return;
-            String parentServerIdentifier = config.childrenToParents.get(serverIdentifier);
+            String parentServerIdentifier;
+            if (serverIdentifier.startsWith("sclat")) parentServerIdentifier = "sclat";
+            else parentServerIdentifier = config.childrenToParents.get(serverIdentifier);
             serversInformation.computeIfPresent(parentServerIdentifier, (key, count) -> count + playerCount);
         });
         return serversInformation;
