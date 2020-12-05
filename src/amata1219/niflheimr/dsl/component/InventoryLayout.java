@@ -70,7 +70,7 @@ public class InventoryLayout implements InventoryHolder {
         };
     }
 
-    private Slot slotAt(int index) {
+    public Slot getSlotAt(int index) {
         return slots.getOrDefault(index, animatedSlots.containsKey(index) ? animatedSlots.get(index) : defaultSlot.get());
     }
 
@@ -109,7 +109,7 @@ public class InventoryLayout implements InventoryHolder {
             Icon currentIcon = currentIcons.get(event.clickedSlot);
             if (currentIcon != null) currentIcon.actionOnClick().accept(event.current);
 
-            Slot currentSlot = slotAt(event.clickedSlot);
+            Slot currentSlot = getSlotAt(event.clickedSlot);
             if (currentSlot != null) currentSlot.actionOnClick().accept(event);
         };
     }

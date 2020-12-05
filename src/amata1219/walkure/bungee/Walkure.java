@@ -1,6 +1,7 @@
 package amata1219.walkure.bungee;
 
 import amata1219.walkure.Channels;
+import amata1219.walkure.bungee.listener.RequestReceiveListener;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class Walkure extends Plugin {
@@ -12,6 +13,8 @@ public class Walkure extends Plugin {
         instance = this;
 
         getProxy().registerChannel(Channels.BUNGEE_CORD);
+
+        getProxy().getPluginManager().registerListener(this, new RequestReceiveListener());
     }
 
     @Override

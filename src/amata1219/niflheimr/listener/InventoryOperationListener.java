@@ -23,7 +23,7 @@ public class InventoryOperationListener implements Listener {
 
         layout.actionOnClick().accept(new InventoryUIClickEvent(event));
 
-        if (layout.slotAt(event.getSlot()).editable) event.setCancelled(true);
+        if (layout.getSlotAt(event.getSlot()).editable) event.setCancelled(true);
     }
 
     @EventHandler

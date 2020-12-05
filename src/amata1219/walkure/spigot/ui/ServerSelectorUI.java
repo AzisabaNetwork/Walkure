@@ -14,11 +14,13 @@ import com.google.common.io.ByteStreams;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.bukkit.ChatColor.*;
 
@@ -37,8 +39,10 @@ public class ServerSelectorUI implements InventoryUI {
         Map<ServerState, List<Server>> groupedServers = serversToPlayerCounts.keySet().stream()
                 .map(config.servers::get)
                 .collect(Collectors.groupingBy(s -> s.state));
+
         List<Server> openServers = groupedServers.get(ServerState.OPEN);
         openServers.addAll(groupedServers.get(ServerState.OPEN_BETA));
+
         return build(InventoryLines.x6, l -> {
             for (int i = 0; i < openServers.size(); i++) {
                 Server server = openServers.get(i);
@@ -50,21 +54,55 @@ public class ServerSelectorUI implements InventoryUI {
     }
 
     private Consumer<Icon> createIconSettings(Server server) {
+        /*
+            テキストに使用するカラーコードは678f(GOLD, GRAY, DARK_GRAY, WHITE)の冬を意識した4色にする
+            GOLD → 値
+            GRAY → 文章
+            DARK_GRAY → 値
+            WHITE → 破線
+            字体を変更するコードは自由に使用可能
+            破線の長さはリストの中の最長文字列に合わせる
+            %dashed-line% → 破線に置換
+            文章の構造を直感的に把握出来るように改行は明示する
+         */
+
+        String placeholder = "%dashed-line%";
+
+        List<String> lore = server.description.lines()
+                .map(s -> GRAY + s)
+                .collect(Collectors.toList());
+
+        int playerCount = serversToPlayerCounts.get(server.identifier);
+        String exclamationMarks = Stream.generate(() -> "！")
+                .limit(playerCount / 30)
+                .collect(Collectors.joining());
+
+        lore.add("");
+        lore.add(placeholder);
+        lore.add("");
+
+        lore.add(GRAY + "状態 → " + server.state.text);
+        lore.add(GRAY + "現在 " + GOLD + playerCount + GRAY + " 人がプレイ中" + exclamationMarks);
+
+        lore.add("");
+        lore.add(placeholder);
+        lore.add("");
+
+        if (server.recommendedVersion != null) lore.add(GRAY + "推奨バージョン → " + GOLD + server.recommendedVersion);
+        lore.add(GRAY + "対応バージョン → " + GOLD + server.supportedVersions);
+
+        String longestLine = lore.stream().max(Comparator.comparing(String::length)).get();
+        String dashedLine = Stream.generate(() -> "-")
+                .limit(longestLine.length())
+                .collect(Collectors.joining());
+
+        for (int i = 0; i < lore.size(); i++)
+            if (lore.get(i).equals(placeholder)) lore.set(i, dashedLine);
+
         return i -> {
-            i.displayName = AQUA + server.displayName;
-
-            /*
-            lore = mutableListOf<String>().apply {
-            if players > 0
-              add("${GRAY}現在 ${YELLOW}$players${GRAY} 人がプレイ中")
-
-                    add("${RESET}このサーバーは $state${RESET} です。")
-                            append("${GRAY}バージョン ${GOLD}${serverConfiguration.recommendedVersion}${GRAY} 推奨")
-                            append("> ${GOLD}${serverConfiguration.supportedVersions}${GRAY} にも対応")
-                    add("${BLACK}${serverIdentifier.identifier}")
-                }
-            }
-             */
+            i.basedItemStack = server.icon.buildIconBase();
+            i.displayName = GOLD + "" + UNDERLINE + server.displayName;
+            i.lore = lore;
         };
     }
 
