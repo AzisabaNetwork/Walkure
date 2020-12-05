@@ -1,27 +1,22 @@
 package amata1219.walkure.bungee;
 
-import amata1219.redis.plugin.messages.common.RedisPluginMessagesAPI;
 import amata1219.walkure.Channels;
-import amata1219.walkure.bungee.subscriber.RequestSubscriber;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class Walkure extends Plugin {
 
     private static Walkure instance;
 
-    private final RedisPluginMessagesAPI redis = (RedisPluginMessagesAPI) getProxy().getPluginManager().getPlugin("RedisPluginMessagesAPI");
-
     @Override
     public void onEnable() {
         instance = this;
-        redis.registerIncomingChannels(Channels.REQUEST);
-        redis.registerSubscriber(Channels.REQUEST, new RequestSubscriber(redis));
-        redis.registerOutgoingChannels(Channels.RESPONSE);
+
+        getProxy().registerChannel(Channels.BUNGEE_CORD);
     }
 
     @Override
     public void onDisable() {
-
+        getProxy().unregisterChannel(Channels.BUNGEE_CORD);
     }
 
     public static Walkure instance() {

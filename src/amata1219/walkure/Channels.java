@@ -2,6 +2,7 @@ package amata1219.walkure;
 
 public class Channels {
 
+    public static final String BUNGEE_CORD = "BungeeCord";
     public static final String REQUEST;
     public static final String RESPONSE;
 
