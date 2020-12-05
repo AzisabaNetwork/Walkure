@@ -20,13 +20,16 @@ public class Walkure extends JavaPlugin {
 
     private static Walkure plugin;
 
-    public final Yaml config = new Yaml("config.yml");
-    public final ServerConfiguration serverConfiguration = new ServerConfiguration(config);
+    public final Yaml serversConfig = new Yaml("servers.yml");
+    public final ServerConfiguration serverConfiguration = new ServerConfiguration(serversConfig);
     public final ServerInformationSynthesizer serverInformationSynthesizer = new ServerInformationSynthesizer(serverConfiguration);
 
     @Override
     public void onEnable() {
         plugin = this;
+
+        serversConfig.saveDefault();
+        serverConfiguration.load();
 
         RequesterRegistry requesterRegistry = new RequesterRegistry();
 
