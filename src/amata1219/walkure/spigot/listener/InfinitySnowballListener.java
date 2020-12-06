@@ -2,15 +2,25 @@ package amata1219.walkure.spigot.listener;
 
 import amata1219.walkure.spigot.Constants;
 import amata1219.walkure.spigot.Walkure;
+import net.minecraft.server.v1_12_R1.EntityHuman;
+import net.minecraft.server.v1_12_R1.EntitySnowball;
+import net.minecraft.server.v1_12_R1.World;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.HashMap;
 
 import static org.bukkit.ChatColor.*;
 
-public class PlayerEatFishListener implements Listener {
+public class InfinitySnowballListener implements Listener {
 
     private final Walkure plugin = Walkure.instance();
 
@@ -44,7 +54,6 @@ public class PlayerEatFishListener implements Listener {
         });
 
         runTaskLater(25 + 80 + 65 + 20 + 40, () -> player.sendMessage(prefix + "ではな"));
-
     }
 
     private void runTaskLater(long delay, Runnable action) {
@@ -54,5 +63,34 @@ public class PlayerEatFishListener implements Listener {
     private void playSound(Player player, Sound sound) {
         player.playSound(player.getLocation(), sound, 1.0f, 2.0f);
     }
+
+    private final HashMap<Player, Long> lastShotTime = new HashMap<>();
+
+    @EventHandler
+    public void on(PlayerInteractEvent event) {
+        Action action = event.getAction();
+        if (!(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) return;;
+
+        Player player = event.getPlayer();
+        if (lastShotTime.containsKey(player) && System.currentTimeMillis() - lastShotTime.get(player) < 250) return;
+
+        if (!Constants.INFINITY_SNOWBALL.isSimilar(event.getItem())) return;
+
+        World world = ((CraftWorld) player.getWorld()).getHandle();
+        EntityHuman entityHuman = ((CraftPlayer) player).getHandle();
+        EntitySnowball entitySnowball = new EntitySnowball(world, entityHuman);
+        entitySnowball.a(entityHuman, entityHuman.pitch, entityHuman.yaw, 0.0F, 1.5F, 1.0F);
+        world.addEntity(entitySnowball);
+
+        player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1.0f, 1.0f + Constants.RANDOM.nextFloat());
+
+        lastShotTime.put(player, System.currentTimeMillis());
+    }
+
+    @EventHandler
+    public void on(PlayerQuitEvent event) {
+        lastShotTime.remove(event.getPlayer());
+    }
+
 
 }

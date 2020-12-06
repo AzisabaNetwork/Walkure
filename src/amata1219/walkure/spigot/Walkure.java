@@ -7,6 +7,7 @@ import amata1219.walkure.spigot.command.ServerConfigurationReloadCommand;
 import amata1219.walkure.spigot.config.ServerConfiguration;
 import amata1219.walkure.spigot.config.Yaml;
 import amata1219.walkure.spigot.data.processor.ServerInformationSynthesizer;
+import amata1219.walkure.spigot.listener.InfinitySnowballListener;
 import amata1219.walkure.spigot.listener.PlayerJoinListener;
 import amata1219.walkure.spigot.listener.PlayerOpenServerSelectorListener;
 import amata1219.walkure.spigot.listener.ResponseReceiveListener;
@@ -48,7 +49,8 @@ public class Walkure extends JavaPlugin {
         registerEventListeners(
                 new InventoryOperationListener(),
                 new PlayerJoinListener(),
-                new PlayerOpenServerSelectorListener(requesterRegistry)
+                new PlayerOpenServerSelectorListener(requesterRegistry),
+                new InfinitySnowballListener()
         );
 
         getCommand("walkure").setExecutor(new ServerConfigurationReloadCommand());
