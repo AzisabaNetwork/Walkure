@@ -1,6 +1,9 @@
 package amata1219.niflheimr.listener;
 
+import amata1219.niflheimr.dsl.component.Icon;
 import amata1219.niflheimr.dsl.component.InventoryLayout;
+import amata1219.niflheimr.dsl.component.slot.AnimatedSlot;
+import amata1219.niflheimr.dsl.component.slot.Slot;
 import amata1219.niflheimr.event.InventoryUIClickEvent;
 import amata1219.niflheimr.event.InventoryUICloseEvent;
 import amata1219.niflheimr.event.InventoryUIOpenEvent;
@@ -16,16 +19,20 @@ public class InventoryOperationListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        System.out.println("clicked");
         Inventory inventory = event.getClickedInventory();
         if (inventory == null) return;
 
-        System.out.println("passed1");
         InventoryLayout layout = tryExtractInventoryLayout(event.getInventory());
         if (layout == null) return;
 
-        System.out.println("passed2");
-        layout.actionOnClick().accept(new InventoryUIClickEvent(event));
+        InventoryUIClickEvent ev = new InventoryUIClickEvent(event);
+        layout.actionOnClick().accept(ev);
+
+        Icon currentIcon = layout.currentIcons.get(ev.clickedSlot);
+        if (currentIcon != null) currentIcon.actionOnClick().accept(ev.current);
+
+        Slot currentSlot = layout.getSlotAt(ev.clickedSlot);
+        if (currentSlot != null) currentSlot.actionOnClick().accept(ev);
 
         if (!layout.getSlotAt(event.getSlot()).editable) event.setCancelled(true);
     }
@@ -33,13 +40,25 @@ public class InventoryOperationListener implements Listener {
     @EventHandler
     public void onOpen(InventoryOpenEvent event) {
         InventoryLayout layout = tryExtractInventoryLayout(event.getInventory());
-        if (layout != null) layout.actionOnOpen().accept(new InventoryUIOpenEvent(event));
+
+        if (layout != null) return;
+
+        InventoryUIOpenEvent ev = new InventoryUIOpenEvent(event);
+        layout.actionOnOpen().accept(ev);
+
+        for (AnimatedSlot slot : layout.animatedSlots.values()) slot.actionOnOpen().accept(ev);
     }
 
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
         InventoryLayout layout = tryExtractInventoryLayout(event.getInventory());
-        if (layout != null) layout.actionOnClose().accept(new InventoryUICloseEvent(event));
+
+        if (layout != null) return;
+
+        InventoryUICloseEvent ev = new InventoryUICloseEvent(event);
+
+        layout.actionOnClose().accept(ev);
+        for (AnimatedSlot slot : layout.animatedSlots.values()) slot.actionOnClose().accept(ev);
     }
 
     private InventoryLayout tryExtractInventoryLayout(Inventory inventory) {

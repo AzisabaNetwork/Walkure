@@ -21,9 +21,9 @@ public class InventoryLayout implements InventoryHolder {
     public final InventoryFormat format;
     public String title;
     private Supplier<Slot> defaultSlot = Slot::new;
-    private final HashMap<Integer, Slot> slots = new HashMap<>();
-    private final HashMap<Integer, AnimatedSlot> animatedSlots = new HashMap<>();
-    private final HashMap<Integer, Icon> currentIcons = new HashMap<>();
+    public final HashMap<Integer, Slot> slots = new HashMap<>();
+    public final HashMap<Integer, AnimatedSlot> animatedSlots = new HashMap<>();
+    public final HashMap<Integer, Icon> currentIcons = new HashMap<>();
     private Consumer<InventoryUIClickEvent> actionOnClick = Constants.noOperation();
     private Consumer<InventoryUIOpenEvent> actionOnOpen = Constants.noOperation();
     private Consumer<InventoryUICloseEvent> actionOnClose = Constants.noOperation();
@@ -104,18 +104,7 @@ public class InventoryLayout implements InventoryHolder {
     }
 
     public void onClick(Consumer<InventoryUIClickEvent> actionOnClick) {
-        this.actionOnClick = event -> {
-            System.out.println("test");
-            actionOnClick.accept(event);
-
-            Icon currentIcon = currentIcons.get(event.clickedSlot);
-            if (currentIcon != null) currentIcon.actionOnClick().accept(event.current);
-
-            Slot currentSlot = getSlotAt(event.clickedSlot);
-            System.out.println(event.clickedSlot);
-            System.out.println(currentSlot);
-            if (currentSlot != null) currentSlot.actionOnClick().accept(event);
-        };
+        this.actionOnClick = actionOnClick;
     }
 
     public Consumer<InventoryUIOpenEvent>  actionOnOpen() {
@@ -123,10 +112,7 @@ public class InventoryLayout implements InventoryHolder {
     }
 
     public void onOpen(Consumer<InventoryUIOpenEvent> actionOnOpen) {
-        this.actionOnOpen = event -> {
-            actionOnOpen.accept(event);
-            for (AnimatedSlot slot : animatedSlots.values()) slot.actionOnOpen().accept(event);
-        };
+        this.actionOnOpen = actionOnOpen;
     }
 
     public Consumer<InventoryUICloseEvent>  actionOnClose() {
