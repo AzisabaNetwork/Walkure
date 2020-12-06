@@ -120,10 +120,7 @@ public class InventoryLayout implements InventoryHolder {
     }
 
     public void onClose(Consumer<InventoryUICloseEvent> actionOnClose) {
-        this.actionOnClose = event -> {
-            actionOnClose.accept(event);
-            for (AnimatedSlot slot : animatedSlots.values()) slot.actionOnClose().accept(event);
-        };
+        this.actionOnClose = actionOnClose;
     }
 
 }

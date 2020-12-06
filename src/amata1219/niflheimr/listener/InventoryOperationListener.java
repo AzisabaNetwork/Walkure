@@ -40,20 +40,18 @@ public class InventoryOperationListener implements Listener {
     @EventHandler
     public void onOpen(InventoryOpenEvent event) {
         InventoryLayout layout = tryExtractInventoryLayout(event.getInventory());
-
-        if (layout != null) return;
+        if (layout == null) return;
 
         InventoryUIOpenEvent ev = new InventoryUIOpenEvent(event);
-        layout.actionOnOpen().accept(ev);
 
+        layout.actionOnOpen().accept(ev);
         for (AnimatedSlot slot : layout.animatedSlots.values()) slot.actionOnOpen().accept(ev);
     }
 
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
         InventoryLayout layout = tryExtractInventoryLayout(event.getInventory());
-
-        if (layout != null) return;
+        if (layout == null) return;
 
         InventoryUICloseEvent ev = new InventoryUICloseEvent(event);
 
@@ -63,7 +61,7 @@ public class InventoryOperationListener implements Listener {
 
     private InventoryLayout tryExtractInventoryLayout(Inventory inventory) {
         InventoryHolder holder = inventory.getHolder();
-        return InventoryLayout.class.isInstance(holder) ? (InventoryLayout) holder : null;
+        return holder instanceof InventoryLayout ? (InventoryLayout) holder : null;
     }
 
 }

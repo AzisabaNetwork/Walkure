@@ -5,8 +5,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class ServerIcon {
 
-    private final Material type;
-    private final short damage;
+    public final Material type;
+    public final short damage;
 
     public ServerIcon(Material type, short damage) {
         this.type = type;
@@ -14,9 +14,7 @@ public class ServerIcon {
     }
 
     public ItemStack buildIconBase() {
-        ItemStack item = new ItemStack(type);
-        item.setDurability(damage);
-        return item;
+        return new ItemStack(type);
     }
 
 }

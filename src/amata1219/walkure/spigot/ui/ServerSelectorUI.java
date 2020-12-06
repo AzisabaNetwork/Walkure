@@ -52,21 +52,21 @@ public class ServerSelectorUI implements InventoryUI {
             }
 
             List<Server> systemServers = groupedServers.getOrDefault(ServerState.SYSTEM, Collections.emptyList());
-            for (int i = 9 * 2; i < systemServers.size(); i++) {
+            for (int i = 0; i < systemServers.size(); i++) {
                 Server server = systemServers.get(i);
                 l.putSlot(s -> {
                     s.icon(createIconSettings(server));
                     s.onClick(createActionOnClick(viewer, server));
-                }, i);
+                }, 9 * 2 + i);
             }
 
             List<Server> serversUnderDevelopment = groupedServers.getOrDefault(ServerState.DEVELOP, Collections.emptyList());
-            for (int i = 9 * 4; i < serversUnderDevelopment.size(); i++) {
+            for (int i = 0; i < serversUnderDevelopment.size(); i++) {
                 Server server = serversUnderDevelopment.get(i);
                 l.putSlot(s -> {
                     s.icon(createIconSettings(server));
                     s.onClick(createActionOnClick(viewer, server));
-                }, i);
+                }, 9 * 4 + i);
             }
         });
     }
@@ -99,7 +99,7 @@ public class ServerSelectorUI implements InventoryUI {
                 .limit(playerCount / 30)
                 .collect(Collectors.joining());
 
-        if (playerCount > 0) lore.add(WHITE + "現在" + GOLD + BOLD + playerCount + RESET + WHITE + "人がプレイ中" + exclamationMarks);
+        if (playerCount > 0) lore.add(WHITE + "現在 " + GOLD + BOLD + playerCount + RESET + WHITE + " 人がプレイ中" + exclamationMarks);
 
 
         lore.add("");
@@ -118,7 +118,7 @@ public class ServerSelectorUI implements InventoryUI {
                 .max()
                 .getAsInt();
 
-        String separator = DARK_GRAY + Stream.generate(() -> "-")
+        String separator = WHITE + Stream.generate(() -> "-")
                 .limit(maxLength)
                 .collect(Collectors.joining());
 
@@ -129,14 +129,15 @@ public class ServerSelectorUI implements InventoryUI {
             i.basedItemStack = server.icon.buildIconBase();
             i.displayName = "" + GOLD + BOLD + UNDERLINE + server.displayName;
             i.lore = lore;
+            i.amount = Math.max(Math.min(playerCount, 64), 1);
+            i.damage = server.icon.damage;
         };
     }
 
     private Consumer<InventoryUIClickEvent> createActionOnClick(Player viewer, Server server) {
         return event -> {
-            System.out.println("action");
             Sound sound;
-            if (server.identifier.equals("sclat")) sound = Sound.BLOCK_WATER_AMBIENT;
+            if (server.identifier.equals("main")) sound = Sound.ENTITY_PLAYER_SWIM;
             else sound = Sound.UI_BUTTON_CLICK;
 
             viewer.playSound(viewer.getLocation(), sound, 1.0f, 1.0f);
