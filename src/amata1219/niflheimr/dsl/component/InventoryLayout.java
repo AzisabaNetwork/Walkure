@@ -54,12 +54,13 @@ public class InventoryLayout implements InventoryHolder {
     }
 
     private Inventory createInventory(InventoryType type, int size, String title) {
-        if(type != null)
+        if(type != null){
             if(title != null) return Bukkit.createInventory(this, type, title);
             else return Bukkit.createInventory(this, type);
-        else
-        if(title != null) return Bukkit.createInventory(this, size, title);
-        else return Bukkit.createInventory(this, size);
+        } else {
+            if(title != null) return Bukkit.createInventory(this, size, title);
+            else return Bukkit.createInventory(this, size);
+        }
     }
 
     public void defaultSlot(Consumer<Slot> settings) {

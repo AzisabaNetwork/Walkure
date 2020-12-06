@@ -5,8 +5,8 @@ import amata1219.walkure.bungee.Walkure;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import net.md_5.bungee.ServerConnection;
 import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -36,7 +36,7 @@ public class RequestReceiveListener implements Listener {
             out.writeInt(server.getPlayers().size());
         }
 
-        ((ProxiedPlayer) event.getReceiver()).sendData(Channels.BUNGEE_CORD, out.toByteArray());
+        ((ServerConnection) event.getSender()).sendData(Channels.BUNGEE_CORD, out.toByteArray());
     }
 
 }

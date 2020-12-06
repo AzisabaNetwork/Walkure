@@ -9,7 +9,7 @@ public class InventoryFormat {
 
     public InventoryFormat(int lines) {
         size = lines * 9;
-        type = InventoryType.CHEST;
+        type = null;
     }
 
     public InventoryFormat(InventoryType type) {

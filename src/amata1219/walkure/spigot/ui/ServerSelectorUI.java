@@ -7,10 +7,12 @@ import amata1219.niflheimr.dsl.component.InventoryLines;
 import amata1219.niflheimr.event.InventoryUIClickEvent;
 import amata1219.walkure.spigot.Walkure;
 import amata1219.walkure.spigot.config.ServerConfiguration;
+import amata1219.walkure.spigot.data.processor.StringMeasurer;
 import amata1219.walkure.spigot.data.serverdata.Server;
 import amata1219.walkure.spigot.data.serverdata.ServerState;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -37,8 +39,8 @@ public class ServerSelectorUI implements InventoryUI {
                 .map(config.servers::get)
                 .collect(Collectors.groupingBy(s -> s.state));
 
-        List<Server> openServers = groupedServers.get(ServerState.OPEN);
-        openServers.addAll(groupedServers.get(ServerState.OPEN_BETA));
+        List<Server> openServers = groupedServers.getOrDefault(ServerState.OPEN, Collections.emptyList());
+        openServers.addAll(groupedServers.getOrDefault(ServerState.OPEN_BETA, Collections.emptyList()));
 
         return build(InventoryLines.x6, l -> {
             for (int i = 0; i < openServers.size(); i++) {
@@ -49,7 +51,7 @@ public class ServerSelectorUI implements InventoryUI {
                 }, i);
             }
 
-            List<Server> systemServers = groupedServers.get(ServerState.SYSTEM);
+            List<Server> systemServers = groupedServers.getOrDefault(ServerState.SYSTEM, Collections.emptyList());
             for (int i = 9 * 2; i < systemServers.size(); i++) {
                 Server server = systemServers.get(i);
                 l.putSlot(s -> {
@@ -58,7 +60,7 @@ public class ServerSelectorUI implements InventoryUI {
                 }, i);
             }
 
-            List<Server> serversUnderDevelopment = groupedServers.get(ServerState.DEVELOP);
+            List<Server> serversUnderDevelopment = groupedServers.getOrDefault(ServerState.DEVELOP, Collections.emptyList());
             for (int i = 9 * 4; i < serversUnderDevelopment.size(); i++) {
                 Server server = serversUnderDevelopment.get(i);
                 l.putSlot(s -> {
@@ -82,11 +84,13 @@ public class ServerSelectorUI implements InventoryUI {
             文章の構造を直感的に把握出来るように改行は明示する
          */
 
-        String placeholder = "%dashed-line%";
+        String placeholder = "%separator%";
 
         List<String> lore = Arrays.stream(server.description.split("\\r?\\n"))
                 .map(s -> GRAY + s)
                 .collect(Collectors.toList());
+
+        lore.add(0, "");
 
         int playerCount = serversToPlayerCounts.get(server.identifier);
         String exclamationMarks = Stream.generate(() -> "！")
@@ -106,14 +110,19 @@ public class ServerSelectorUI implements InventoryUI {
 
         if (server.recommendedVersion != null) lore.add(GRAY + "推奨バージョン → " + GOLD + server.recommendedVersion);
         lore.add(GRAY + "対応バージョン → " + GOLD + server.supportedVersions);
+        lore.add("");
 
-        String longestLine = lore.stream().max(Comparator.comparing(String::length)).get();
-        String dashedLine = Stream.generate(() -> "-")
-                .limit(longestLine.length())
+        int maxLength = lore.stream()
+                .map(ChatColor::stripColor)
+                .mapToInt(StringMeasurer::measure)
+                .max()
+                .getAsInt();
+        String separator = WHITE + "" + STRIKETHROUGH + Stream.generate(() -> " ")
+                .limit(maxLength)
                 .collect(Collectors.joining());
 
         for (int i = 0; i < lore.size(); i++)
-            if (lore.get(i).equals(placeholder)) lore.set(i, dashedLine);
+            if (lore.get(i).equals(placeholder)) lore.set(i, separator);
 
         return i -> {
             i.basedItemStack = server.icon.buildIconBase();
