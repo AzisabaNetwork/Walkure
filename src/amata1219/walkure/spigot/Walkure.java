@@ -18,18 +18,24 @@ import java.lang.reflect.Field;
 
 public class Walkure extends JavaPlugin {
 
-    private static Walkure plugin;
+    private static Walkure instance;
 
-    public final Yaml serversConfig = new Yaml("servers.yml");
-    public final ServerConfiguration serverConfiguration = new ServerConfiguration(serversConfig);
-    public final ServerInformationSynthesizer serverInformationSynthesizer = new ServerInformationSynthesizer(serverConfiguration);
+    private Yaml config;
+    private ServerConfiguration serverConfiguration;
+    private ServerInformationSynthesizer serverInformationSynthesizer;
 
     @Override
     public void onEnable() {
-        plugin = this;
+        instance = this;
 
-        serversConfig.saveDefault();
+        config = new Yaml("servers.yml");
+        config.saveDefault();
+
+        serverConfiguration = new ServerConfiguration(config);
         serverConfiguration.load();
+
+        serverInformationSynthesizer = new ServerInformationSynthesizer(serverConfiguration);
+
 
         RequesterRegistry requesterRegistry = new RequesterRegistry();
 
@@ -50,7 +56,19 @@ public class Walkure extends JavaPlugin {
     }
 
     public static Walkure instance() {
-        return instance();
+        return instance;
+    }
+
+    public Yaml config() {
+        return config;
+    }
+
+    public ServerConfiguration serverConfiguration() {
+        return serverConfiguration;
+    }
+
+    public ServerInformationSynthesizer serverInformationSynthesizer() {
+        return serverInformationSynthesizer;
     }
 
     private void registerGleamEnchantment() {

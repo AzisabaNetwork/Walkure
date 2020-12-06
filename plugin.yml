@@ -1,5 +1,4 @@
 name: Walkure
 main: amata1219.walkure.spigot.Walkure
 version: 1.0.0
-depend: [RedisPluginMessages]
 author: '@amata1219'

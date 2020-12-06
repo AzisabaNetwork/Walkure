@@ -13,8 +13,8 @@ public class ServerConfigurationReloadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        plugin.serversConfig.reload();
-        plugin.serverConfiguration.load();
+        plugin.config().reload();
+        plugin.serverConfiguration().load();
         sender.sendMessage(GRAY + "Walkure :: servers.ymlのリロードが完了しました。");
         return true;
     }

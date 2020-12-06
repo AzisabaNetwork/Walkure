@@ -14,10 +14,7 @@ import com.google.common.io.ByteStreams;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,7 +24,7 @@ import static org.bukkit.ChatColor.*;
 public class ServerSelectorUI implements InventoryUI {
 
     private final Walkure plugin = Walkure.instance();
-    private final ServerConfiguration config = plugin.serverConfiguration;
+    private final ServerConfiguration config = plugin.serverConfiguration();
     private final HashMap<String, Integer> serversToPlayerCounts;
 
     public ServerSelectorUI(HashMap<String, Integer> serversToPlayerCounts) {
@@ -87,7 +84,7 @@ public class ServerSelectorUI implements InventoryUI {
 
         String placeholder = "%dashed-line%";
 
-        List<String> lore = server.description.lines()
+        List<String> lore = Arrays.stream(server.description.split("\\r?\\n"))
                 .map(s -> GRAY + s)
                 .collect(Collectors.toList());
 
