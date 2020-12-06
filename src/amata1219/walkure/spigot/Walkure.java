@@ -3,6 +3,7 @@ package amata1219.walkure.spigot;
 import amata1219.niflheimr.enchantment.GleamEnchantment;
 import amata1219.niflheimr.listener.InventoryOperationListener;
 import amata1219.walkure.Channels;
+import amata1219.walkure.spigot.command.ServerConfigurationReloadCommand;
 import amata1219.walkure.spigot.config.ServerConfiguration;
 import amata1219.walkure.spigot.config.Yaml;
 import amata1219.walkure.spigot.data.processor.ServerInformationSynthesizer;
@@ -37,7 +38,6 @@ public class Walkure extends JavaPlugin {
 
         serverInformationSynthesizer = new ServerInformationSynthesizer(serverConfiguration);
 
-
         RequesterRegistry requesterRegistry = new RequesterRegistry();
 
         getServer().getMessenger().registerIncomingPluginChannel(this, Channels.BUNGEE_CORD, new ResponseReceiveListener(requesterRegistry));
@@ -50,6 +50,8 @@ public class Walkure extends JavaPlugin {
                 new PlayerJoinListener(),
                 new PlayerOpenServerSelectorListener(requesterRegistry)
         );
+
+        getCommand("walkureload").setExecutor(new ServerConfigurationReloadCommand());
     }
 
     @Override

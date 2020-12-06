@@ -2,3 +2,8 @@ name: Walkure
 main: amata1219.walkure.spigot.Walkure
 version: 1.0.0
 author: '@amata1219'
+
+commands:
+  walkureload:
+    permission: walkure.reload
+    permission-message: 'You do not have permission'

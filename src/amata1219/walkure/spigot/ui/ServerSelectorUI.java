@@ -39,7 +39,7 @@ public class ServerSelectorUI implements InventoryUI {
                 .map(config.servers::get)
                 .collect(Collectors.groupingBy(s -> s.state));
 
-        List<Server> openServers = groupedServers.getOrDefault(ServerState.OPEN, Collections.emptyList());
+        List<Server> openServers = groupedServers.getOrDefault(ServerState.OPEN, new ArrayList<>());
         openServers.addAll(groupedServers.getOrDefault(ServerState.OPEN_BETA, Collections.emptyList()));
 
         return build(InventoryLines.x6, l -> {
