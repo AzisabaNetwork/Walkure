@@ -36,27 +36,27 @@ public class InfinitySnowballListener implements Listener {
             playSound(player, Sound.BLOCK_GLASS_BREAK);
         });
 
-        runTaskLater(25 + 25, () -> {
+        runTaskLater(25 + 50, () -> {
             playSound(player, Sound.BLOCK_GLASS_BREAK);
             player.sendMessage(prefix + "これを見つけるとは貴様、なかなかやるではないか");
         });
 
-        runTaskLater(25 + 25 + 70, () -> {
+        runTaskLater(25 + 50 + 70, () -> {
             playSound(player, Sound.BLOCK_GLASS_BREAK);
             player.sendMessage(prefix + "そうだな、褒美にこれでもくれてやろう");
         });
 
-        runTaskLater(25 + 25 + 70 + 65, () -> {
+        runTaskLater(25 + 50 + 70 + 65, () -> {
             playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
             player.getInventory().addItem(Constants.INFINITY_SNOWBALL);
         });
 
-        runTaskLater(25 + 25 + 70 + 65 + 40, () -> {
+        runTaskLater(25 + 50 + 70 + 65 + 40, () -> {
             playSound(player, Sound.BLOCK_GLASS_BREAK);
             player.sendMessage(prefix + "冬を存分に楽しむがいい");
         });
 
-        runTaskLater(25 + 25 + 70 + 65 + 40 + 40, () -> {
+        runTaskLater(25 + 50 + 70 + 65 + 40 + 40, () -> {
             playSound(player, Sound.BLOCK_GLASS_BREAK);
             player.sendMessage(prefix + "ではな");
         });
