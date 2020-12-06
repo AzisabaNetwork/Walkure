@@ -30,30 +30,36 @@ public class InfinitySnowballListener implements Listener {
 
         Player player = event.getPlayer();
 
-        String prefix = AQUA + "??? > " + GRAY;
-        player.sendMessage(prefix + "ホウ……");
-
+        String prefix = AQUA + "???" + GRAY + " > ";
         runTaskLater(25, () -> {
+            player.sendMessage(prefix + "ホウ……");
+            playSound(player, Sound.BLOCK_GLASS_BREAK);
+        });
+
+        runTaskLater(25 + 25, () -> {
             playSound(player, Sound.BLOCK_GLASS_BREAK);
             player.sendMessage(prefix + "これを見つけるとは貴様、なかなかやるではないか");
         });
 
-        runTaskLater(25 + 80, () -> {
+        runTaskLater(25 + 25 + 70, () -> {
             playSound(player, Sound.BLOCK_GLASS_BREAK);
             player.sendMessage(prefix + "そうだな、褒美にこれでもくれてやろう");
         });
 
-        runTaskLater(25 + 80 + 65, () -> {
+        runTaskLater(25 + 25 + 70 + 65, () -> {
             playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
             player.getInventory().addItem(Constants.INFINITY_SNOWBALL);
         });
 
-        runTaskLater(25 + 80 + 65 + 20, () -> {
+        runTaskLater(25 + 25 + 70 + 65 + 40, () -> {
             playSound(player, Sound.BLOCK_GLASS_BREAK);
             player.sendMessage(prefix + "冬を存分に楽しむがいい");
         });
 
-        runTaskLater(25 + 80 + 65 + 20 + 40, () -> player.sendMessage(prefix + "ではな"));
+        runTaskLater(25 + 25 + 70 + 65 + 40 + 40, () -> {
+            playSound(player, Sound.BLOCK_GLASS_BREAK);
+            player.sendMessage(prefix + "ではな");
+        });
     }
 
     private void runTaskLater(long delay, Runnable action) {
@@ -71,10 +77,12 @@ public class InfinitySnowballListener implements Listener {
         Action action = event.getAction();
         if (!(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) return;;
 
+        if (!Constants.INFINITY_SNOWBALL.isSimilar(event.getItem())) return;
+
+        event.setCancelled(true);
+
         Player player = event.getPlayer();
         if (lastShotTime.containsKey(player) && System.currentTimeMillis() - lastShotTime.get(player) < 250) return;
-
-        if (!Constants.INFINITY_SNOWBALL.isSimilar(event.getItem())) return;
 
         World world = ((CraftWorld) player.getWorld()).getHandle();
         EntityHuman entityHuman = ((CraftPlayer) player).getHandle();
@@ -91,6 +99,5 @@ public class InfinitySnowballListener implements Listener {
     public void on(PlayerQuitEvent event) {
         lastShotTime.remove(event.getPlayer());
     }
-
 
 }

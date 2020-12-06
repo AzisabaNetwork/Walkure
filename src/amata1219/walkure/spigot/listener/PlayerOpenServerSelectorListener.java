@@ -29,9 +29,11 @@ public class PlayerOpenServerSelectorListener implements Listener {
         Action action = event.getAction();
         if (!(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) return;
 
+        Player player = event.getPlayer();
+        if (player.isSneaking()) return;
+
         if (!Constants.SERVER_SELECTOR.isSimilar(event.getItem())) return;
 
-        Player player = event.getPlayer();
         long id = System.nanoTime();
 
         registry.register(id, player);
@@ -44,6 +46,8 @@ public class PlayerOpenServerSelectorListener implements Listener {
         player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1.0f, pitch);
 
         player.sendPluginMessage(Walkure.instance(), Channels.BUNGEE_CORD, out.toByteArray());
+
+        event.setCancelled(true);
     }
 
 }
