@@ -51,7 +51,7 @@ public class Walkure extends JavaPlugin {
                 new PlayerOpenServerSelectorListener(requesterRegistry)
         );
 
-        getCommand("walkureload").setExecutor(new ServerConfigurationReloadCommand());
+        getCommand("walkure").setExecutor(new ServerConfigurationReloadCommand());
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Walkure extends JavaPlugin {
             Enchantment.registerEnchantment(GleamEnchantment.INSTANCE);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
 
         } finally {
             try {

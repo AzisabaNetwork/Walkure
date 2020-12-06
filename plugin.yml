@@ -4,6 +4,6 @@ version: 1.0.0
 author: '@amata1219'
 
 commands:
-  walkureload:
+  walkure:
     permission: walkure.reload
     permission-message: 'You do not have permission'
