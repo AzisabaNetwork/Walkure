@@ -10,7 +10,6 @@ public class StringMeasurer {
     public static int measure(String s) {
         float length = 0;
         for(char c : s.toCharArray()) length += length(c);
-        System.out.println(s.getBytes().length + " : " + length);
         return (int) length;
     }
 
