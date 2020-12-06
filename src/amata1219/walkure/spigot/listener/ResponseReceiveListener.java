@@ -37,7 +37,7 @@ public class ResponseReceiveListener implements PluginMessageListener {
         registry.unregister(id);
 
         HashMap<String, Integer> serversInformation = plugin.serverInformationSynthesizer().synthesize(networkInformation);
-        new ServerSelectorUI(serversInformation).openInventory(requester);
+        new ServerSelectorUI(serversInformation).openInventoryAsynchronously(requester);
     }
 
 }

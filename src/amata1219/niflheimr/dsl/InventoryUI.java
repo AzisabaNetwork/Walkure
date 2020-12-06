@@ -3,8 +3,12 @@ package amata1219.niflheimr.dsl;
 import amata1219.niflheimr.dsl.component.InventoryFormat;
 import amata1219.niflheimr.dsl.component.InventoryLayout;
 import amata1219.niflheimr.dsl.component.InventoryLines;
+import amata1219.walkure.spigot.Walkure;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.function.Consumer;
 
@@ -28,6 +32,13 @@ public interface InventoryUI {
 
     default void openInventory(Player player) {
         player.openInventory(layout(player).buildInventory());
+    }
+
+    default void openInventoryAsynchronously(Player player) {
+        Bukkit.getScheduler().runTaskAsynchronously(
+                Walkure.instance(),
+                () -> player.openInventory(layout(player).buildInventory())
+        );
     }
 
 }

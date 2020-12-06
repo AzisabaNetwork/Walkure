@@ -87,7 +87,7 @@ public class ServerSelectorUI implements InventoryUI {
         String placeholder = "%separator%";
 
         List<String> lore = Arrays.stream(server.description.split("\\r?\\n"))
-                .map(s -> GRAY + s)
+                .map(s -> WHITE + s)
                 .collect(Collectors.toList());
 
         lore.add(0, "");
@@ -101,15 +101,17 @@ public class ServerSelectorUI implements InventoryUI {
         lore.add(placeholder);
         lore.add("");
 
-        lore.add(GRAY + "状態 → " + server.state.text);
-        lore.add(GRAY + "現在 " + GOLD + playerCount + GRAY + " 人がプレイ中" + exclamationMarks);
+        if (playerCount > 0) lore.add(WHITE + "只今 " + GOLD + BOLD + playerCount + RESET + WHITE + " 人がプレイ中" + exclamationMarks);
+
+        lore.add(WHITE + "このサーバーは現在" + server.state.text + "です");
 
         lore.add("");
         lore.add(placeholder);
         lore.add("");
 
-        if (server.recommendedVersion != null) lore.add(GRAY + "推奨バージョン → " + GOLD + server.recommendedVersion);
-        lore.add(GRAY + "対応バージョン → " + GOLD + server.supportedVersions);
+        if (server.recommendedVersion != null) lore.add(WHITE + "推奨バージョン ： " + GOLD + server.recommendedVersion);
+        lore.add(WHITE + "対応バージョン ： " + GOLD + server.supportedVersions);
+
         lore.add("");
 
         int maxLength = lore.stream()
@@ -117,7 +119,8 @@ public class ServerSelectorUI implements InventoryUI {
                 .mapToInt(StringMeasurer::measure)
                 .max()
                 .getAsInt();
-        String separator = WHITE + "" + STRIKETHROUGH + Stream.generate(() -> " ")
+
+        String separator = DARK_GRAY + Stream.generate(() -> "-")
                 .limit(maxLength)
                 .collect(Collectors.joining());
 
@@ -126,7 +129,7 @@ public class ServerSelectorUI implements InventoryUI {
 
         return i -> {
             i.basedItemStack = server.icon.buildIconBase();
-            i.displayName = GOLD + "" + UNDERLINE + server.displayName;
+            i.displayName = "" + GOLD + BOLD + UNDERLINE + server.displayName;
             i.lore = lore;
         };
     }
