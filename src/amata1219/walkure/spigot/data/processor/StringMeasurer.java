@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public class StringMeasurer {
 
     private static final Pattern DOUBLE_BYTE_CHARACTER_CHECKER = Pattern.compile("^[^!-~｡-ﾟ]+$");
-    private static final char[] halfSizeChars = ".,:;()!'| `[]".toCharArray();
+    private static final char[] halfSizeChars = ".。,、:：;；()!'| `[]！".toCharArray();
 
     public static int measure(String s) {
         float length = 0;

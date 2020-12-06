@@ -92,25 +92,23 @@ public class ServerSelectorUI implements InventoryUI {
 
         lore.add(0, "");
 
+        lore.add("");
+
         int playerCount = serversToPlayerCounts.get(server.identifier);
         String exclamationMarks = Stream.generate(() -> "！")
                 .limit(playerCount / 30)
                 .collect(Collectors.joining());
 
-        lore.add("");
-        lore.add(placeholder);
-        lore.add("");
+        if (playerCount > 0) lore.add(WHITE + "現在" + GOLD + BOLD + playerCount + RESET + WHITE + "人がプレイ中" + exclamationMarks);
 
-        if (playerCount > 0) lore.add(WHITE + "只今 " + GOLD + BOLD + playerCount + RESET + WHITE + " 人がプレイ中" + exclamationMarks);
-
-        lore.add(WHITE + "このサーバーは現在" + server.state.text + "です");
 
         lore.add("");
         lore.add(placeholder);
         lore.add("");
 
-        if (server.recommendedVersion != null) lore.add(WHITE + "推奨バージョン ： " + GOLD + server.recommendedVersion);
-        lore.add(WHITE + "対応バージョン ： " + GOLD + server.supportedVersions);
+        lore.add(WHITE + "状態 : " + server.state.text);
+        if (server.recommendedVersion != null) lore.add(WHITE + "推奨バージョン : " + GOLD + server.recommendedVersion);
+        lore.add(WHITE + "対応バージョン : " + GOLD + server.supportedVersions);
 
         lore.add("");
 
@@ -136,6 +134,7 @@ public class ServerSelectorUI implements InventoryUI {
 
     private Consumer<InventoryUIClickEvent> createActionOnClick(Player viewer, Server server) {
         return event -> {
+            System.out.println("action");
             Sound sound;
             if (server.identifier.equals("sclat")) sound = Sound.BLOCK_WATER_AMBIENT;
             else sound = Sound.UI_BUTTON_CLICK;

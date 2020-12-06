@@ -35,10 +35,12 @@ public interface InventoryUI {
     }
 
     default void openInventoryAsynchronously(Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(
-                Walkure.instance(),
-                () -> player.openInventory(layout(player).buildInventory())
-        );
+        Walkure plugin = Walkure.instance();
+        BukkitScheduler scheduler = plugin.getServer().getScheduler();
+        scheduler.runTaskAsynchronously(plugin, () -> {
+            Inventory inventory = layout(player).buildInventory();
+            scheduler.runTask(plugin, () -> player.openInventory(inventory));
+        });
     }
 
 }

@@ -105,12 +105,15 @@ public class InventoryLayout implements InventoryHolder {
 
     public void onClick(Consumer<InventoryUIClickEvent> actionOnClick) {
         this.actionOnClick = event -> {
+            System.out.println("test");
             actionOnClick.accept(event);
 
             Icon currentIcon = currentIcons.get(event.clickedSlot);
             if (currentIcon != null) currentIcon.actionOnClick().accept(event.current);
 
             Slot currentSlot = getSlotAt(event.clickedSlot);
+            System.out.println(event.clickedSlot);
+            System.out.println(currentSlot);
             if (currentSlot != null) currentSlot.actionOnClick().accept(event);
         };
     }

@@ -16,12 +16,15 @@ public class InventoryOperationListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
+        System.out.println("clicked");
         Inventory inventory = event.getClickedInventory();
         if (inventory == null) return;
 
+        System.out.println("passed1");
         InventoryLayout layout = tryExtractInventoryLayout(event.getInventory());
         if (layout == null) return;
 
+        System.out.println("passed2");
         layout.actionOnClick().accept(new InventoryUIClickEvent(event));
 
         if (!layout.getSlotAt(event.getSlot()).editable) event.setCancelled(true);
