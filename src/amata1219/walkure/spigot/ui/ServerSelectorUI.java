@@ -118,7 +118,7 @@ public class ServerSelectorUI implements InventoryUI {
                 .max()
                 .getAsInt();
 
-        String separator = WHITE + Stream.generate(() -> "-")
+        String separator = DARK_GRAY + Stream.generate(() -> "-")
                 .limit(maxLength)
                 .collect(Collectors.joining());
 
@@ -137,7 +137,7 @@ public class ServerSelectorUI implements InventoryUI {
     private Consumer<InventoryUIClickEvent> createActionOnClick(Player viewer, Server server) {
         return event -> {
             Sound sound;
-            if (server.identifier.equals("main")) sound = Sound.ENTITY_PLAYER_SWIM;
+            if (server.identifier.equals("sclat")) sound = Sound.ENTITY_PLAYER_SWIM;
             else sound = Sound.UI_BUTTON_CLICK;
 
             viewer.playSound(viewer.getLocation(), sound, 1.0f, 1.0f);

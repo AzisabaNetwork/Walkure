@@ -17,7 +17,7 @@ public class StringMeasurer {
         for (char halfSizeChar : halfSizeChars)
             if (c == halfSizeChar) return 0.5f;
 
-        return DOUBLE_BYTE_CHARACTER_CHECKER.matcher(String.valueOf(c)).matches() ? 2.25f : 1.0f;
+        return DOUBLE_BYTE_CHARACTER_CHECKER.matcher(String.valueOf(c)).matches() ? 2.37f : 1.0f;
     }
 
 }
