@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 
 public class InventoryOperationListener implements Listener {
 
@@ -18,7 +19,7 @@ public class InventoryOperationListener implements Listener {
         Inventory inventory = event.getClickedInventory();
         if (inventory == null) return;
 
-        InventoryLayout layout = (InventoryLayout) event.getInventory().getHolder();
+        InventoryLayout layout = tryExtractInventoryLayout(event.getInventory());
         if (layout == null) return;
 
         layout.actionOnClick().accept(new InventoryUIClickEvent(event));
@@ -28,14 +29,19 @@ public class InventoryOperationListener implements Listener {
 
     @EventHandler
     public void onOpen(InventoryOpenEvent event) {
-        InventoryLayout layout = (InventoryLayout) event.getInventory().getHolder();
+        InventoryLayout layout = tryExtractInventoryLayout(event.getInventory());
         if (layout != null) layout.actionOnOpen().accept(new InventoryUIOpenEvent(event));
     }
 
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
-        InventoryLayout layout = (InventoryLayout) event.getInventory().getHolder();
+        InventoryLayout layout = tryExtractInventoryLayout(event.getInventory());
         if (layout != null) layout.actionOnClose().accept(new InventoryUICloseEvent(event));
+    }
+
+    private InventoryLayout tryExtractInventoryLayout(Inventory inventory) {
+        InventoryHolder holder = inventory.getHolder();
+        return InventoryLayout.class.isInstance(holder) ? (InventoryLayout) holder : null;
     }
 
 }

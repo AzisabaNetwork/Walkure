@@ -7,6 +7,7 @@ import amata1219.walkure.spigot.config.ServerConfiguration;
 import amata1219.walkure.spigot.config.Yaml;
 import amata1219.walkure.spigot.data.processor.ServerInformationSynthesizer;
 import amata1219.walkure.spigot.listener.PlayerJoinListener;
+import amata1219.walkure.spigot.listener.PlayerOpenServerSelectorListener;
 import amata1219.walkure.spigot.listener.ResponseReceiveListener;
 import amata1219.walkure.spigot.registry.RequesterRegistry;
 import org.bukkit.enchantments.Enchantment;
@@ -46,7 +47,8 @@ public class Walkure extends JavaPlugin {
 
         registerEventListeners(
                 new InventoryOperationListener(),
-                new PlayerJoinListener()
+                new PlayerJoinListener(),
+                new PlayerOpenServerSelectorListener(requesterRegistry)
         );
     }
 
@@ -72,16 +74,23 @@ public class Walkure extends JavaPlugin {
     }
 
     private void registerGleamEnchantment() {
-        Field acceptingNew;
+        Field acceptingNew = null;
         try {
             acceptingNew = Enchantment.class.getDeclaredField("acceptingNew");
             acceptingNew.setAccessible(true);
             acceptingNew.set(null, true);
             Enchantment.registerEnchantment(GleamEnchantment.INSTANCE);
-            acceptingNew.set(null, false);
-            acceptingNew.setAccessible(false);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+
+        } finally {
+            try {
+                acceptingNew.set(null, false);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            acceptingNew.setAccessible(false);
         }
     }
 

@@ -36,7 +36,7 @@ servers:
     versions:
       recommended: 1.12.2
       supported: 1.8.0 - 1.16.3
-    state: SYSTEM_OPEN
+    state: SYSTEM
     item-material: FIREWORK
     description: |-
       アジ鯖に参加すると
@@ -48,7 +48,7 @@ servers:
     versions:
       recommended: 1.8.x
       supported: 1.8.0 - 1.16.3
-     state: SYSTEM_OPEN
+    state: SYSTEM
     item-material: WATER_BUCKET
     description: |-
       放置する自信がある場合にどうぞ。
@@ -110,7 +110,7 @@ servers:
     versions:
       recommended: 1.13.2
       supported: 1.13.2 - 1.16.4
-      state: OPEN_BETA
+    state: OPEN_BETA
     #ここに定義した値は実際は使用していない
     child-servers:
       - sclattest
