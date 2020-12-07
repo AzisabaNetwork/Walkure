@@ -70,8 +70,6 @@ public class InfinitySnowballListener implements Listener {
         player.playSound(player.getLocation(), sound, 1.0f, 2.0f);
     }
 
-    private final HashMap<Player, Long> lastShotTime = new HashMap<>();
-
     @EventHandler
     public void on(PlayerInteractEvent event) {
         Action action = event.getAction();
@@ -82,7 +80,6 @@ public class InfinitySnowballListener implements Listener {
         event.setCancelled(true);
 
         Player player = event.getPlayer();
-        if (lastShotTime.containsKey(player) && System.currentTimeMillis() - lastShotTime.get(player) < 250) return;
 
         World world = ((CraftWorld) player.getWorld()).getHandle();
         EntityHuman entityHuman = ((CraftPlayer) player).getHandle();
@@ -91,13 +88,6 @@ public class InfinitySnowballListener implements Listener {
         world.addEntity(entitySnowball);
 
         player.playSound(player.getLocation(), Sound.BLOCK_GLASS_BREAK, 1.0f, 1.0f + Constants.RANDOM.nextFloat());
-
-        lastShotTime.put(player, System.currentTimeMillis());
-    }
-
-    @EventHandler
-    public void on(PlayerQuitEvent event) {
-        lastShotTime.remove(event.getPlayer());
     }
 
 }
