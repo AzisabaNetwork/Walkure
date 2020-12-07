@@ -31,12 +31,13 @@ public class ResponseReceiveListener implements PluginMessageListener {
 
         HashMap<String, Integer> networkInformation = new HashMap<>();
         int length = in.readInt();
-        for (int i = 0; i < length; i += 2) networkInformation.put(in.readUTF(), in.readInt());
+        for (int i = 0; i < length; i++) networkInformation.put(in.readUTF(), in.readInt());
 
         Player requester = registry.requester(id);
         registry.unregister(id);
 
         HashMap<String, Integer> serversInformation = plugin.serverInformationSynthesizer().synthesize(networkInformation);
+
         new ServerSelectorUI(serversInformation).openInventoryAsynchronously(requester);
     }
 

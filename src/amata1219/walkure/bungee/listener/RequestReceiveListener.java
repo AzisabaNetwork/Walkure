@@ -11,7 +11,9 @@ import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class RequestReceiveListener implements Listener {
 
