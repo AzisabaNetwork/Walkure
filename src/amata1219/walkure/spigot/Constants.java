@@ -5,6 +5,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -17,6 +18,9 @@ public class Constants {
 
     public static final ItemStack SERVER_SELECTOR = new ItemStack(Material.RAW_FISH);
     public static final ItemStack INFINITY_SNOWBALL = new ItemStack(Material.SNOW_BALL);
+
+    public static final String INFINITY_SNOWBALL_METADATA_NAME = "walkure:infinity-snowball";
+    public static final MaterialData ICE_MATERIAL_DATA = new MaterialData(Material.ICE);
 
     static {
         ItemMeta serverSelectorMeta = SERVER_SELECTOR.getItemMeta();
