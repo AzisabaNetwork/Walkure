@@ -1,7 +1,5 @@
 package amata1219.walkure.spigot;
 
-import amata1219.niflheimr.dsl.InventoryUI;
-import amata1219.walkure.spigot.ui.TemporaryUI;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -16,8 +14,6 @@ import static org.bukkit.ChatColor.*;
 public class Constants {
 
     public static final Random RANDOM = new Random();
-
-    public static final TemporaryUI TEMPORARY_UI = new TemporaryUI();
 
     public static final ItemStack SERVER_SELECTOR = new ItemStack(Material.RAW_FISH);
     public static final ItemStack INFINITY_SNOWBALL = new ItemStack(Material.SNOW_BALL);

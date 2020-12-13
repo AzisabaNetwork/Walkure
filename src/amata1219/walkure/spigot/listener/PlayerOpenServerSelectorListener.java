@@ -34,10 +34,6 @@ public class PlayerOpenServerSelectorListener implements Listener {
 
         if (!Constants.SERVER_SELECTOR.isSimilar(event.getItem())) return;
 
-        //応急処置
-        //Constants.TEMPORARY_UI.openInventoryAsynchronously(player);
-        //if (true) return;
-
         long id = System.nanoTime();
 
         registry.register(id, player);
