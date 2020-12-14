@@ -29,7 +29,6 @@ public class PlayerJoinListener implements Listener {
             playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.8f);
         }).append(40, () -> {
             player.sendMessage(new String[]{
-                    "",
                     AQUA + "【期間限定】",
                     AQUA + "冬だ！  雪だ！  雪合戦だ(ﾟ∀ﾟ)！！！",
                     AQUA + "という訳で、ロビー鯖で" + WHITE + "「雪合戦」" + AQUA + "が出来るようになりました！",
