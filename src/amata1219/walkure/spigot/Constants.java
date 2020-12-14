@@ -28,7 +28,7 @@ public class Constants {
 
     static {
         ItemMeta serverSelectorMeta = SERVER_SELECTOR.getItemMeta();
-        serverSelectorMeta.setDisplayName("" + RESET + AQUA + "サーバーに遊びに行く！");
+        serverSelectorMeta.setDisplayName(AQUA + "サーバーに遊びに行く！");
         serverSelectorMeta.setLore(Arrays.asList(
                 GRAY + "右クリックでサーバー選択画面を開きます！",
                 GRAY + "食用ではありません！"
@@ -36,7 +36,7 @@ public class Constants {
         SERVER_SELECTOR.setItemMeta(serverSelectorMeta);
 
         ItemMeta infinitySnowballMeta = ETERNAL_FORCE_BLIZZARD.getItemMeta();
-        infinitySnowballMeta.setDisplayName("" + RESET + AQUA + "エターナルフォースブリザード");
+        infinitySnowballMeta.setDisplayName(AQUA + "エターナルフォースブリザード");
         infinitySnowballMeta.setLore(Arrays.asList(
                 WHITE + "一瞬で相手の周囲の大気ごと氷結させる",
                 WHITE + "相手は死ぬ"
