@@ -20,7 +20,11 @@ public class Constants {
     public static final ItemStack ETERNAL_FORCE_BLIZZARD = new ItemStack(Material.SNOW_BALL);
 
     public static final String ETERNAL_FORCE_BLIZZARD_METADATA_NAME = "walkure:eternal-force-blizzard";
+    public static final String DEATH_FLAG_METADATA_NAME = "walkure:death-flag";
+
     public static final MaterialData ICE_MATERIAL_DATA = new MaterialData(Material.ICE);
+
+    public static final double ETERNAL_FORCE_BLIZZARD_DAMAGE = 1.0;
 
     static {
         ItemMeta serverSelectorMeta = SERVER_SELECTOR.getItemMeta();

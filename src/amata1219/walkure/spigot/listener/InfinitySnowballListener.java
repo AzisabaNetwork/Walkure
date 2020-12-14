@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,6 +22,10 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
+
+import java.util.HashMap;
+import java.util.List;
 
 import static org.bukkit.ChatColor.AQUA;
 import static org.bukkit.ChatColor.GRAY;
@@ -127,7 +132,10 @@ public class InfinitySnowballListener implements Listener {
         Player hit = (Player) event.getHitEntity();
         if (!hit.getInventory().getItemInMainHand().isSimilar(Constants.ETERNAL_FORCE_BLIZZARD)) return;
 
-        hit.damage(0.2, snowball);
+        if (hit.getHealth() <= Constants.ETERNAL_FORCE_BLIZZARD_DAMAGE) hit.setMetadata(Constants.DEATH_FLAG_METADATA_NAME, new FixedMetadataValue(Walkure.instance(), snowball));
+
+        hit.damage(Constants.ETERNAL_FORCE_BLIZZARD_DAMAGE, snowball);
+
         hit.setNoDamageTicks(0);
     }
 
@@ -136,33 +144,34 @@ public class InfinitySnowballListener implements Listener {
         if (!(event.getEntity() instanceof  Player && event.getDamager() instanceof Snowball)) return;
 
         Snowball snowball = (Snowball) event.getDamager();
-        if (snowball.hasMetadata(Constants.ETERNAL_FORCE_BLIZZARD_METADATA_NAME)) event.setCancelled(false);
+        if (!(snowball.hasMetadata(Constants.ETERNAL_FORCE_BLIZZARD_METADATA_NAME))) return;
+
+        event.setCancelled(false);
     }
 
     @EventHandler
     public void on(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        EntityDamageEvent source = player.getLastDamageCause();
-        if (!(source instanceof EntityDamageByEntityEvent)) return;
+        List<MetadataValue> metadataList = player.getMetadata(Constants.DEATH_FLAG_METADATA_NAME);
+        if(metadataList == null || metadataList.isEmpty()) return;
 
-        Entity damager = ((EntityDamageByEntityEvent) source).getDamager();
-        if (!(damager instanceof Snowball && damager.hasMetadata(Constants.ETERNAL_FORCE_BLIZZARD_METADATA_NAME))) return;
+        FixedMetadataValue metadata = (FixedMetadataValue) metadataList.get(0);
+        player.removeMetadata(Constants.DEATH_FLAG_METADATA_NAME, Walkure.instance());
 
-        Player shooter = (Player) ((Snowball) damager).getShooter();
-
+        Player shooter = (Player) ((Snowball) metadata.value()).getShooter();
         String message = player.getName() + " は " + shooter.getName() + " ";
-        //amata1219 は amata1219 の [§f雪礫] で殺害された
-        switch (Constants.RANDOM.nextInt(3)) {
-            case 0: {
+        switch (Constants.RANDOM.nextInt(4)) {
+            case 0:
+            case 1: {
                 message += "の エターナルフォースブリザード で凍死した";
                 break;
             }
-            case 1: {
+            case 2: {
                 message += "により周囲の大気ごと凍結されて死んだ";
                 break;
             }
             default: {
-                message += "が生み出した永遠の力の猛吹雪で凍え死んだ";
+                message += "が生み出した永遠の猛吹雪で凍え死んだ";
             }
         }
 

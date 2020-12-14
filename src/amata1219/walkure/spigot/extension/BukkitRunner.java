@@ -31,7 +31,7 @@ public abstract class BukkitRunner implements Runnable {
     @Override
     public void run() {
         process();
-        Bukkit.getScheduler().runTaskLater(Walkure.instance(), next, delay);
+        if (next != null) Bukkit.getScheduler().runTaskLater(Walkure.instance(), next, delay);
     }
 
     public abstract void process();

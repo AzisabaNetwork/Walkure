@@ -20,19 +20,20 @@ public class PlayerJoinListener implements Listener {
         Player player = event.getPlayer();
         tryGivingDefaultItemsTo(player);
 
-        BukkitRunner.of(20, () -> {
+        BukkitRunner.of(0, () -> {
             player.sendMessage(new String[]{
                     GOLD + "【TIP】",
                     GOLD + "アイテム欄にあります" + RED + "\"魚\"" + GOLD + "を手に持ち右クリックしますと、",
-                    GOLD + "サーバー選択画面を開くことができます！ごーとぅーあじさば！＞＜ｗ"
+                    GOLD + "サーバー選択画面を開くことができます！  ごーとぅーあじさば！＞＜ｗ"
             });
             playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.8f);
-        }).append(30, () -> {
+        }).append(40, () -> {
             player.sendMessage(new String[]{
+                    "",
                     AQUA + "【期間限定】",
-                    AQUA + "冬だ！雪だ！雪合戦だ！！！",
-                    AQUA + "という訳で、ロビー鯖で雪合戦が出来るようになりました！",
-                    AQUA + "厨二ちっくな輝きの雪玉は宣戦の証！奴らを狙いまくれ！＞＜ｗ"
+                    AQUA + "冬だ！  雪だ！  雪合戦だ(ﾟ∀ﾟ)！！！",
+                    AQUA + "という訳で、ロビー鯖で" + WHITE + "「雪合戦」" + AQUA + "が出来るようになりました！",
+                    AQUA + "厨二ちっくな輝きの雪玉は宣戦の証！  奴らを狙いまくれ！＞＜ｗ"
             });
             playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.8f);
         }).runTaskLater();
