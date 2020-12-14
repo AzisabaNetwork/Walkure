@@ -14,13 +14,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import static org.bukkit.ChatColor.AQUA;
@@ -54,7 +53,7 @@ public class InfinitySnowballListener implements Listener {
 
         runTaskLater(25 + 50 + 70 + 65, () -> {
             playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
-            player.getInventory().addItem(Constants.INFINITY_SNOWBALL);
+            player.getInventory().addItem(Constants.ETERNAL_FORCE_BLIZZARD);
         });
 
         runTaskLater(25 + 50 + 70 + 65 + 40, () -> {
@@ -81,7 +80,7 @@ public class InfinitySnowballListener implements Listener {
         Action action = event.getAction();
         if (!(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) return;;
 
-        if (!Constants.INFINITY_SNOWBALL.isSimilar(event.getItem())) return;
+        if (!Constants.ETERNAL_FORCE_BLIZZARD.isSimilar(event.getItem())) return;
 
         event.setCancelled(true);
 
@@ -106,8 +105,8 @@ public class InfinitySnowballListener implements Listener {
         if (!(snowball.getShooter() instanceof Player)) return;
 
         Player shooter = (Player) snowball.getShooter();
-        if (shooter.getInventory().getItemInMainHand().isSimilar(Constants.INFINITY_SNOWBALL))
-            snowball.setMetadata(Constants.INFINITY_SNOWBALL_METADATA_NAME, metadata);
+        if (shooter.getInventory().getItemInMainHand().isSimilar(Constants.ETERNAL_FORCE_BLIZZARD))
+            snowball.setMetadata(Constants.ETERNAL_FORCE_BLIZZARD_METADATA_NAME, metadata);
     }
 
     @EventHandler
@@ -115,7 +114,7 @@ public class InfinitySnowballListener implements Listener {
         if (!(event.getEntity() instanceof Snowball)) return;
 
         Snowball snowball = (Snowball) event.getEntity();
-        if (!(snowball.hasMetadata(Constants.INFINITY_SNOWBALL_METADATA_NAME))) return;
+        if (!(snowball.hasMetadata(Constants.ETERNAL_FORCE_BLIZZARD_METADATA_NAME))) return;
 
         Location loc = snowball.getLocation();
         loc.setDirection(snowball.getVelocity());
@@ -126,10 +125,48 @@ public class InfinitySnowballListener implements Listener {
         if (!(event.getHitEntity() instanceof Player)) return;
 
         Player hit = (Player) event.getHitEntity();
-        if (!hit.getInventory().getItemInMainHand().isSimilar(Constants.INFINITY_SNOWBALL)) return;
+        if (!hit.getInventory().getItemInMainHand().isSimilar(Constants.ETERNAL_FORCE_BLIZZARD)) return;
 
-        hit.damage(0.1, (Entity) snowball.getShooter());
+        hit.damage(0.2, snowball);
         hit.setNoDamageTicks(0);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void on(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof  Player && event.getDamager() instanceof Snowball)) return;
+
+        Snowball snowball = (Snowball) event.getDamager();
+        if (snowball.hasMetadata(Constants.ETERNAL_FORCE_BLIZZARD_METADATA_NAME)) event.setCancelled(false);
+    }
+
+    @EventHandler
+    public void on(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        EntityDamageEvent source = player.getLastDamageCause();
+        if (!(source instanceof EntityDamageByEntityEvent)) return;
+
+        Entity damager = ((EntityDamageByEntityEvent) source).getDamager();
+        if (!(damager instanceof Snowball && damager.hasMetadata(Constants.ETERNAL_FORCE_BLIZZARD_METADATA_NAME))) return;
+
+        Player shooter = (Player) ((Snowball) damager).getShooter();
+
+        String message = player.getName() + " は " + shooter.getName() + " ";
+        //amata1219 は amata1219 の [§f雪礫] で殺害された
+        switch (Constants.RANDOM.nextInt(3)) {
+            case 0: {
+                message += "の エターナルフォースブリザード で凍死した";
+                break;
+            }
+            case 1: {
+                message += "により周囲の大気ごと凍結されて死んだ";
+                break;
+            }
+            default: {
+                message += "が生み出した永遠の力の猛吹雪で凍え死んだ";
+            }
+        }
+
+        event.setDeathMessage(message);
     }
 
 }

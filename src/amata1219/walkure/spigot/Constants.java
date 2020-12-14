@@ -17,29 +17,29 @@ public class Constants {
     public static final Random RANDOM = new Random();
 
     public static final ItemStack SERVER_SELECTOR = new ItemStack(Material.RAW_FISH);
-    public static final ItemStack INFINITY_SNOWBALL = new ItemStack(Material.SNOW_BALL);
+    public static final ItemStack ETERNAL_FORCE_BLIZZARD = new ItemStack(Material.SNOW_BALL);
 
-    public static final String INFINITY_SNOWBALL_METADATA_NAME = "walkure:infinity-snowball";
+    public static final String ETERNAL_FORCE_BLIZZARD_METADATA_NAME = "walkure:eternal-force-blizzard";
     public static final MaterialData ICE_MATERIAL_DATA = new MaterialData(Material.ICE);
 
     static {
         ItemMeta serverSelectorMeta = SERVER_SELECTOR.getItemMeta();
-        serverSelectorMeta.setDisplayName(AQUA + "サーバーに遊びに行く！");
+        serverSelectorMeta.setDisplayName("" + RESET + AQUA + "サーバーに遊びに行く！");
         serverSelectorMeta.setLore(Arrays.asList(
                 GRAY + "右クリックでサーバー選択画面を開きます！",
                 GRAY + "食用ではありません！"
         ));
         SERVER_SELECTOR.setItemMeta(serverSelectorMeta);
 
-        ItemMeta infinitySnowballMeta = INFINITY_SNOWBALL.getItemMeta();
-        infinitySnowballMeta.setDisplayName(WHITE + "雪礫");
+        ItemMeta infinitySnowballMeta = ETERNAL_FORCE_BLIZZARD.getItemMeta();
+        infinitySnowballMeta.setDisplayName("" + RESET + AQUA + "エターナルフォースブリザード");
         infinitySnowballMeta.setLore(Arrays.asList(
-                GRAY + "北風、冬ノ将軍ヨリ賜ツタ褒美ノ品",
-                GRAY + "此ノ礫ニ限リ無シ"
+                WHITE + "一瞬で相手の周囲の大気ごと氷結させる",
+                WHITE + "相手は死ぬ"
         ));
         infinitySnowballMeta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
         infinitySnowballMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        INFINITY_SNOWBALL.setItemMeta(infinitySnowballMeta);
+        ETERNAL_FORCE_BLIZZARD.setItemMeta(infinitySnowballMeta);
     }
 
 }
