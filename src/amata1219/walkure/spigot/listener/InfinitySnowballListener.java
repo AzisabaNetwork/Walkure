@@ -2,15 +2,15 @@ package amata1219.walkure.spigot.listener;
 
 import amata1219.walkure.spigot.Constants;
 import amata1219.walkure.spigot.Walkure;
-import net.minecraft.server.v1_12_R1.EntityHuman;
-import net.minecraft.server.v1_12_R1.EntitySnowball;
-import net.minecraft.server.v1_12_R1.World;
+import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftSnowball;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -21,10 +21,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
-import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import static org.bukkit.ChatColor.AQUA;
@@ -33,6 +35,17 @@ import static org.bukkit.ChatColor.GRAY;
 public class InfinitySnowballListener implements Listener {
 
     private final Walkure plugin = Walkure.instance();
+
+    private Method hasTotem;
+
+    public InfinitySnowballListener() {
+        try {
+            hasTotem = EntityLiving.class.getDeclaredMethod("e", DamageSource.class);
+            hasTotem.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
 
     @EventHandler
     public void on(PlayerItemConsumeEvent event) {
@@ -132,21 +145,40 @@ public class InfinitySnowballListener implements Listener {
         Player hit = (Player) event.getHitEntity();
         if (!hit.getInventory().getItemInMainHand().isSimilar(Constants.ETERNAL_FORCE_BLIZZARD)) return;
 
-        if (hit.getHealth() <= Constants.ETERNAL_FORCE_BLIZZARD_DAMAGE) hit.setMetadata(Constants.DEATH_FLAG_METADATA_NAME, new FixedMetadataValue(Walkure.instance(), snowball));
+        final double damage = Constants.ETERNAL_FORCE_BLIZZARD_DAMAGE;
 
-        hit.damage(Constants.ETERNAL_FORCE_BLIZZARD_DAMAGE, snowball);
+        EntityPlayer player = ((CraftPlayer) hit).getHandle();
+        EntitySnowball entitySnowball = ((CraftSnowball) snowball).getHandle();
+        DamageSource damageSource = DamageSource.projectile(entitySnowball, entitySnowball.getShooter());
 
+        double before = hit.getHealth();
+        if (before <= damage) {
+            try {
+                if (!((boolean) hasTotem.invoke(player, damageSource))) {
+                    hit.setMetadata(Constants.DEATH_FLAG_METADATA_NAME, new FixedMetadataValue(Walkure.instance(), snowball));
+                    player.killEntity();
+                    return;
+                }
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+
+        hit.setHealth(before - damage);
+        player.getCombatTracker().trackDamage(damageSource, (float) before, (float) damage);
+        player.setAbsorptionHearts(player.getAbsorptionHearts() - (float) damage);
+        player.world.broadcastEntityEffect(player, (byte) 2);
         hit.setNoDamageTicks(0);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true)
     public void on(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof  Player && event.getDamager() instanceof Snowball)) return;
 
         Snowball snowball = (Snowball) event.getDamager();
         if (!(snowball.hasMetadata(Constants.ETERNAL_FORCE_BLIZZARD_METADATA_NAME))) return;
 
-        event.setCancelled(false);
+        event.setCancelled(true);
     }
 
     @EventHandler

@@ -20,7 +20,7 @@ public class PlayerJoinListener implements Listener {
         Player player = event.getPlayer();
         tryGivingDefaultItemsTo(player);
 
-        BukkitRunner.of(0, () -> {
+        BukkitRunner.of(20, () -> {
             player.sendMessage(new String[]{
                     GOLD + "【TIP】",
                     GOLD + "アイテム欄にあります" + RED + "\"魚\"" + GOLD + "を手に持ち右クリックしますと、",
