@@ -4,6 +4,7 @@ import amata1219.walkure.spigot.data.serverdata.Server;
 import amata1219.walkure.spigot.data.serverdata.ServerIcon;
 import amata1219.walkure.spigot.data.serverdata.ServerState;
 import amata1219.walkure.spigot.data.serverdata.SkullIcon;
+import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -36,9 +37,10 @@ public class ServerConfiguration {
             String skullTexture = section.getString("item-skull-texture");
             String description = section.getString("description");
             ServerIcon icon = skullTexture == null ? new ServerIcon(material, damage) : new SkullIcon(skullTexture);
-            Server server = new Server(serverIdentifier, displayName, recommendedVersion, supportedVersions, state, description, icon);
+            List<String> childServers = section.getStringList("child-servers");
+            Server server = new Server(serverIdentifier, displayName, recommendedVersion, supportedVersions, state, description, icon, childServers);
             servers.put(serverIdentifier, server);
-            section.getStringList("child-servers").forEach(childServerIdentifier -> childrenToParents.put(serverIdentifier, childServerIdentifier));
+            childServers.forEach(childServerIdentifier -> childrenToParents.put(serverIdentifier, childServerIdentifier));
         }
     }
 

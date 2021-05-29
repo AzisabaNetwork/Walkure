@@ -1,5 +1,8 @@
 package amata1219.walkure.spigot.data.serverdata;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Server {
 
     public final String identifier;
@@ -9,6 +12,7 @@ public class Server {
     public final ServerState state;
     public final String description;
     public final ServerIcon icon;
+    public final List<String> childServers;
 
     public Server(
             String identifier,
@@ -17,7 +21,8 @@ public class Server {
             String supportedVersions,
             ServerState state,
             String description,
-            ServerIcon icon
+            ServerIcon icon,
+            List<String> childServers
     ) {
         this.identifier = identifier;
         this.displayName = displayName;
@@ -26,6 +31,8 @@ public class Server {
         this.state = state;
         this.description = description;
         this.icon = icon;
+        // nullにならないようにする
+        this.childServers = childServers != null ? childServers : new ArrayList<>();
     }
 
 }

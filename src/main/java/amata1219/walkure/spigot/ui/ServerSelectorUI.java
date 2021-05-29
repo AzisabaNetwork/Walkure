@@ -94,7 +94,10 @@ public class ServerSelectorUI implements InventoryUI {
 
         lore.add("");
 
-        int playerCount = serversToPlayerCounts.get(server.identifier);
+        int playerCount = serversToPlayerCounts.get(server.identifier)
+            + server.childServers.stream()
+            .mapToInt(child -> serversToPlayerCounts.getOrDefault(child, 0))
+            .sum();
         String exclamationMarks = Stream.generate(() -> "！")
                 .limit(playerCount / 30)
                 .collect(Collectors.joining());
