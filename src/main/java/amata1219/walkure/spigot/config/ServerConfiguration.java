@@ -33,7 +33,7 @@ public class ServerConfiguration {
             String supportedVersions = section.getString("versions.supported");
             ServerState state = ServerState.valueOf(section.getString("state"));
             Material material = Material.valueOf(section.getString("item-material"));
-            short damage = (short) section.getInt("damage", 0);
+            short damage = (short) section.getInt("item-damage", 0);
             String skullTexture = section.getString("item-skull-texture");
             String description = section.getString("description");
             ServerIcon icon = skullTexture == null ? new ServerIcon(material, damage) : new SkullIcon(skullTexture);
