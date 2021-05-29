@@ -5,7 +5,7 @@ import amata1219.walkure.bungee.Walkure;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import net.md_5.bungee.ServerConnection;
+import java.lang.reflect.Method;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -36,7 +36,14 @@ public class RequestReceiveListener implements Listener {
             out.writeInt(server.getPlayers().size());
         }
 
-        ((ServerConnection) event.getSender()).sendData(Channels.BUNGEE_CORD, out.toByteArray());
-    }
+        byte[] data = out.toByteArray();
 
+        try {
+            Method sendData = event.getSender().getClass()
+                .getMethod("sendData", String.class, data.getClass());
+            sendData.invoke(event.getSender(), Channels.BUNGEE_CORD, data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
