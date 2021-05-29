@@ -40,7 +40,7 @@ public class ServerConfiguration {
             List<String> childServers = section.getStringList("child-servers");
             Server server = new Server(serverIdentifier, displayName, recommendedVersion, supportedVersions, state, description, icon, childServers);
             servers.put(serverIdentifier, server);
-            childServers.forEach(childServerIdentifier -> childrenToParents.put(serverIdentifier, childServerIdentifier));
+            childServers.forEach(childServerIdentifier -> childrenToParents.put(childServerIdentifier, serverIdentifier));
         }
     }
 
