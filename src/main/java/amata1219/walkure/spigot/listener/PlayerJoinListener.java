@@ -30,9 +30,9 @@ public class PlayerJoinListener implements Listener {
         }).append(40, () -> {
             player.sendMessage(new String[]{
                     AQUA + "【期間限定】",
-                    AQUA + "夏だ！  海だ！  かき氷だ(ﾟ∀ﾟ)！！！",
-                    AQUA + "という訳で、ロビー鯖で" + WHITE + "「かき氷投げ」" + AQUA + "が出来るようになりました！",
-                    AQUA + "厨二ちっくな輝きのかき氷は宣戦の証！  奴らを狙いまくれ！＞＜ｗ"
+                    AQUA + "冬だ！  雪だ！  雪合戦だ(ﾟ∀ﾟ)！！！",
+                    AQUA + "という訳で、ロビー鯖で" + WHITE + "「雪合戦」" + AQUA + "が出来るようになりました！",
+                    AQUA + "厨二ちっくな輝きの雪玉は宣戦の証！  奴らを狙いまくれ！＞＜ｗ"
             });
             playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.8f);
         }).runTaskLater();
